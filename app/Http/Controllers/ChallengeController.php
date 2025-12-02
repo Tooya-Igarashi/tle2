@@ -3,10 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Challenge;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
 {
+    public function dashboard(Request $request)
+    {
+        $search = $request->input('search');
+
+        $challanges = Challenge::query()
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })->get();
+
+        return view('dashboard', ['challenges' => $challanges]);
+    }
+
     public function create()
     {
         return view('admin.challenges.create');
