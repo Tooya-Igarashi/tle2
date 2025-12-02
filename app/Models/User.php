@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rank',
     ];
 
     /**
@@ -44,5 +45,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function challenges()
+    {
+        return $this->hasMany(Challenge::class);
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submitted::class);
+    }
+
+    public function joinedChallenges()
+    {
+        return $this->belongsToMany(Challenge::class, 'user_challenge', 'id_user', 'challenge_id');
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class, 'badge_user', 'user_id', 'id_badge')
+            ->withPivot(['acquire'])
+            ->withTimestamps();
     }
 }
