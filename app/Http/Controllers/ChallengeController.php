@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Challenge;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Difficulty;
 use Illuminate\Http\Request;
+use App\Models\Badge;
 
 class ChallengeController extends Controller
 {
@@ -23,7 +25,9 @@ class ChallengeController extends Controller
 
     public function create()
     {
-        return view('admin.challenges.create');
+        $difficulties = Difficulty::all();
+        $badges = Badge::all();
+        return view('admin.challenges.create', compact('difficulties', 'badges'));
     }
 
     public function store(Request $request)
