@@ -9,5 +9,6 @@
 </head>
 <body>
 <h1>test</h1>
+<img src="{{asset('storage/' . $photo->content)}}" alt="{{$photo->id}}">
 </body>
 </html>

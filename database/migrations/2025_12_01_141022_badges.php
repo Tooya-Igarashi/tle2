@@ -12,9 +12,10 @@ return new class extends Migration {
     {
         Schema::create('badges', function (Blueprint $table) {
             $table->id();
-            $table->binary('image')->nullable();
+            $table->text('image')->nullable();
             $table->string('name');
             $table->longText('description')->nullable();
+
             $table->timestamps();
         });
     }
