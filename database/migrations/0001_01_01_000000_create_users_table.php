@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('password');
             $table->rememberToken();
             $table->boolean('is_admin')->default(false);
-            $table->text('rank')->default('beaver');
+            $table->integer('rank')->default(0);
             $table->timestamps();
         });
 
