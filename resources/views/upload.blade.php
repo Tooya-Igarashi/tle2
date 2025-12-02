@@ -1,5 +1,5 @@
 <x-layout>
-    <h1> dit is upload page</h1>
+    <x-header> upload jouw challenge</x-header>
 
 
     <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 bg-white p-6 rounded-xl shadow">

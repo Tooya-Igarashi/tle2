@@ -10,11 +10,15 @@
 
     <title>Document</title>
 </head>
-<header>
 
-</header>
+<nav>
+    <a href="{{ route('dashboard') }}"> Home</a>
+    <a href="">dropdown</a>
+</nav>
+
+
 <body>
-<h1> test</h1>
+
 <main>
     {{ $slot }}
 </main>
