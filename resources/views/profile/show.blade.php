@@ -1,86 +1,71 @@
 <x-app-layout>
-    <div class="min-h-screen p-8">
+    <div class="bg-gray-700 border rounded-2xl shadow p-5">
 
-        {{-- Container --}}
-        <div class="max-w-5xl mx-auto">
+        {{-- Bovenste grid: profiel + badges + rank --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            {{-- Bovenste grid: profiel + badges --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {{-- Linkerkant: profielfoto + naam --}}
+            <div class="flex flex-col items-center md:items-start">
 
-                {{-- Linkerkant: profielfoto + naam --}}
-                <div class="flex flex-col items-center md:items-start">
-
-                    <!-- Profielfoto -->
-                    <div class="w-40 h-40 rounded-2xl overflow-hidden flex items-center justify-center bg-gray-200">
-                        <img src="{{ $user->profile_photo_url ?? '/img/default-avatar.png' }}"
-                             alt="Profielfoto"
-                             class="w-full h-full object-cover">
-                    </div>
-
-                    <!-- Username -->
-                    <h2 class="mt-4 text-2xl font-bold">
-                        {{ $user->name }}
-                    </h2>
-
-                    <!-- Guides gedaan -->
-                    <p class="mt-1 text-sm">
-                        <span class="font-semibold">Guides gedaan:</span>
-                        {{ $user->guides_count ?? 0 }}
-                    </p>
+                <!-- Profielfoto -->
+                <div class="w-80 h-80 rounded-2xl overflow-hidden flex items-center justify-center bg-gray-200">
+                    <img src="{{ $user->profile_photo_url ?? '/img/default-avatar.png' }}"
+                         alt="Profielavatar"
+                         class="w-full h-full object-cover">
                 </div>
 
+                <!-- Username -->
+                <h2 class="mt-4 text-2xl font-bold">
+                    {{ $user->name }}
+                </h2>
 
-                {{-- Badge sectie --}}
-                <div class="col-span-2">
+                <!-- Guides gedaan -->
+                <p class="mt-1 text-sm">
+                    <span class="font-semibold">Guides gedaan:</span>
+                    {{ $user->guides_count ?? 0 }}
+                </p>
+            </div>
 
-                    <h3 class="text-lg font-semibold mb-3">Mijn badges</h3>
+            {{-- Badge + Rank sectie --}}
+            <div class="col-span-2">
+                <h3 class="text-lg font-semibold mb-3">Mijn badges</h3>
+                {{-- Flex container voor badges en rank naast elkaar --}}
+                <div class="flex gap-6">
 
-                    <div class="flex gap-4 flex-wrap">
-                        @foreach($badges as $badge)
-                            <div class="w-20 h-20 rounded-full overflow-hidden border flex items-center justify-center">
-                                <img src="{{ $badge->image_url }}"
+                    {{-- Badges kolom --}}
+                    <div class="flex flex-col gap-2">
+                        @forelse($badges as $badge)
+                            <div class="w-28 h-28 rounded-full overflow-hidden border flex items-center justify-center">
+                                <img src="{{ $badge->image }}"
                                      alt="{{ $badge->name }}"
                                      class="w-full h-full object-cover">
                             </div>
-                        @endforeach
+                        @empty
+                            <p class="text-gray-500">Je hebt nog geen badges</p>
+                        @endforelse
+
+                        <button class="mt-4 px-2 py-2 rounded-md border">
+                            Alle badges
+                        </button>
                     </div>
 
-                    <button class="mt-4 px-4 py-2 rounded-md border">
-                        Alle badges
-                    </button>
-                </div>
+                    {{-- Rank kolom --}}
+                    <div class="flex flex-col items-center gap-0 w-1/2 flex-shrink-0 ml-44">
+                        <h3 class="font-semibold mb-3">Rang: {{ $user->rankname }}</h3>
 
-            </div>
-
-
-            {{-- Rank rechts onder --}}
-            <div class="mt-16 flex justify-end">
-
-                <div class="flex flex-col items-center">
-
-                    {{-- Rank naam --}}
-                    <h3 class="font-semibold mb-3">Rang: {{ $user->rank->name ?? 'Onbekend' }}</h3>
-
-                    {{-- Rank afbeelding --}}
-                    <div class="w-40 h-40 rounded-full overflow-hidden border flex items-center justify-center">
-                        <img src="{{ $user->rank->image_url ?? '/img/default-rank.png' }}"
-                             alt="Rank"
-                             class="w-full h-full object-cover">
-                    </div>
-
-                    {{-- Level bar --}}
-                    <div class="mt-4 w-40">
-                        <div class="h-4 w-full rounded-full border overflow-hidden">
-                            <div class="h-full" style="width: {{ $user->rank_progress ?? 0 }}%;"></div>
+                        <div class="w-80 h-80 rounded-full overflow-hidden border flex items-center justify-center">
+                            <img src="{{ $user->rankimage }}" alt="Rank" class="w-full h-full object-cover">
                         </div>
-                        <p class="text-center text-sm mt-1">
-                            {{ $user->rank_progress ?? 0 }}%
-                        </p>
+
+                        <div class="mt-4 w-full">
+                            <div class="h-4 w-full rounded-full border overflow-hidden">
+                                <div class="h-full bg-blue-500" style="width: {{ $user->rank_progress ?? 0 }}%;"></div>
+                            </div>
+                            <p class="text-center text-sm mt-1">{{ $user->rank }}%</p>
+                        </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </x-app-layout>
