@@ -18,19 +18,24 @@
         @if (Route::has('login'))
             @auth
 
-                <a href="{{ route('dashboard') }}"> Home</a>
 
-                @if(auth()->user()->role)
-                    <li>
-                        {{--                    <a href="{{route('admin.index')}}"--}}
-                        {{--                       class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex dark:text-dark-6 dark:hover:text-black">--}}
-                        {{--                        Admin overview--}}
-                        {{--                    </a>--}}
-                    </li>
-                @endif
+                    <div>
+                        <a href="{{ route('dashboard') }}"> Home</a>
 
-                <a href="">dropdown</a>
+                        @if(auth()->user()->role)
+                            <li>
+                                <a href="{{route('admin.index')}}"
+                                   class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex dark:text-dark-6 dark:hover:text-black">
+                                    Admin overview
+                                </a>
+                            </li>
+                        @endif
+
+                        <a href="">Kom in actie</a>
+                    </div>
+
                 <div class="">
+
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class=""> Log Out </button>
@@ -38,6 +43,7 @@
                 </div>
 
             @else
+
     </nav>
 </header>
 
@@ -64,6 +70,6 @@
 <footer class="flex p-4 gap-2 text-base font-medium bg-neutral-400">
     <a href=""> link</a>
     <a href=""> link</a>
-    <img src="" alt="logo">
+    <img src="{{asset('.images/bever-logo.png')}}" alt="logo">
 </footer>
 </html>
