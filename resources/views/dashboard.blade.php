@@ -38,7 +38,7 @@
                 >
                 <button
                     type="submit"
-                    class="bg-green-700 text-white px-4 py-2 rounded-xl shadow-md hover:bg-green-800 transition"
+                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition"
                 >
                     Zoeken
                 </button>
@@ -54,7 +54,8 @@
                 @forelse($challenges as $challenge)
                     <div
                         class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="p-6 space-y-4">
+                        <div class="p-6 space-y-4 flex flex-col justify-between h-full">
+
 
                             <img src="{{ asset('images/ExamplePicture.jpg') }}" alt="Voorbeeld foto">
 
@@ -111,11 +112,9 @@
                             </p>
 
                             <div class="flex justify-end">
-                                <a
-                                    href="#"
-                                    class="inline-block bg-gray-700 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-                                >
-                                    Meer →
+                                <a href=""
+                                   class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                                    Meer >
                                 </a>
                             </div>
                         </div>
@@ -126,12 +125,11 @@
                     </p>
                 @endforelse
 
-                <div class="col-span-full flex justify-center mt-4">
-                    <a
-                        href="#"
-                        class="inline-block bg-gray-700 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-                    >
-                        Meer →
+
+                <div class="mt-8 col-span-full flex justify-center">
+                    <a href=""
+                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                        Meer >
                     </a>
                 </div>
 
