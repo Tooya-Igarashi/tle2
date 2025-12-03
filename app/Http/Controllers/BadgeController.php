@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 class BadgeController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $user = $request->user();
         // IDs van badges die de gebruiker heeft
         $userBadgeIds = \DB::table('badge_user')
@@ -25,6 +26,7 @@ class BadgeController extends Controller
         $totalebadges = Badge::count();
         return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalebadges', 'nogNietGehaald'));
     }
+
     public function store(Request $request)
 
     {
@@ -51,12 +53,6 @@ class BadgeController extends Controller
     public function create(Request $request)
     {
         return view('admin.badges.create-badge');
-        // Badges die de gebruiker nog niet heeft
-        $badges = Badge::whereNotIn('id', $userBadgeIds)->get();
-        $nogNietGehaald = $badges->count();
-        $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
-        $totalebadges = Badge::count();
-        return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalebadges', 'nogNietGehaald'));
     }
 
 }
