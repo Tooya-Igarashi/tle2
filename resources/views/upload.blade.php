@@ -8,15 +8,15 @@
 {{--            <p>{{$upload->$challenges->description}}</p>--}}
             @foreach($challenges as $challenge)
 
-                  <div class="pb-10">
-                      <h1 class="text-2xl font-semibold mb-6">{{ $challenge->title }}</h1>
+                  <div class="pb-5">
+                      <h1 class="text-2xl font-semibold">{{ $challenge->title }}</h1>
                       <p> {{$challenge->difficulty->difficulty}}</p>
                       <p>{{ $challenge->description }}</p>
                       <p>{{$challenge->duration}} minuten</p>
 
                   </div>
 
-               <div class="flex flex-row items-center gap-5 bg-emerald-400 p-6 rounded-2xl pt-4">
+               <div class="flex flex-row items-center gap-5 bg-emerald-400 p-4 rounded-2xl pt-4">
                    <img src="{{asset('storage/' . $challenge->badge->image)}}" alt="{{$challenge->badge->name}}" class="h-20 rounded-lg  object-cover">
 
                  <div>
@@ -25,7 +25,10 @@
                  </div>
 
                </div>
+            <div class="pt-3">
+                <a class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga terug</a>
 
+            </div>
 
             @endforeach
 
@@ -40,11 +43,11 @@
                   <div class="flex-row gap-4 ">
 
 
-                    <label for="content" >  <a class="inline-flex items-center  px-6 py-2.5 rounded-md bg-amber-300 text-black font-medium hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload</a></label>
+                    <label for="content" >  <a class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Upload</a></label>
 
                     <input type="file" name="content" id="content" class=" hidden block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700  hover:file:bg-indigo-100">
 
-                <button type="submit" class="inline-flex items-center px-6 py-2.5 rounded-md bg-amber-300 text-black font-medium hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button type="submit" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
                     Opslaan
                 </button>
         </div>
