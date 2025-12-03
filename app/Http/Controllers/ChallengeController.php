@@ -51,7 +51,7 @@ class ChallengeController extends Controller
             'published' => 'boolean',
             'duration' => 'required|date_format:H:i',
             'steps.*' => 'nullable|string|max:50',
-            'image_path' => 'required|image|max:2048',
+            'image_path' => 'image|max:2048',
         ]);
 
         $path = null;

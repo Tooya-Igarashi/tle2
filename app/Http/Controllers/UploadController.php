@@ -14,8 +14,8 @@ class UploadController extends Controller
      */
 
 
-
     use AuthorizesRequests;
+
     public function index()
     {
         $challenges = Challenge::all();
@@ -27,7 +27,7 @@ class UploadController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create( $photos)
+    public function create($photos)
     {
         $this->authorize('create', $photos);
         $photos = Upload::all();
@@ -59,11 +59,11 @@ class UploadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Upload $upload)
+    public function show(Request $request, Challenge $challenge)
     {
-        $challenges = Challenge::all();
+        $challenges = Challenge::where('id', $challenge->challenge_id);
 //        dd($challenges);
-        return view('upload', compact('upload', 'request','challenges'));
+        return view('upload', compact('challenge', 'request', 'challenges'));
     }
 
     /**
