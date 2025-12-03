@@ -18,7 +18,9 @@ class ChallengeController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
-            })->get();
+            })
+            ->take(3)
+            ->get();
 
         return view('dashboard', ['challenges' => $challenges]);
     }
