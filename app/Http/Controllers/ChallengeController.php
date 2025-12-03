@@ -18,7 +18,9 @@ class ChallengeController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
-            })->get();
+            })
+            ->take(3)
+            ->get();
 
         return view('dashboard', ['challenges' => $challenges]);
     }
@@ -49,7 +51,7 @@ class ChallengeController extends Controller
             'published' => 'boolean',
             'duration' => 'required|date_format:H:i',
             'steps.*' => 'nullable|string|max:50',
-            'image_path' => 'required|image|max:2048',
+            'image_path' => 'image|max:2048',
         ]);
 
         $path = null;
@@ -86,6 +88,13 @@ class ChallengeController extends Controller
 
 
         return redirect()->route('dashboard')->with('success', 'Challenge created with steps!');
+    }
+
+    public function allChallenges()
+    {
+        $challenges = Challenge::all();
+
+        return view('challenges.all', compact('challenges'));
     }
 
 }

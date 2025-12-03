@@ -31,12 +31,12 @@ class BadgeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string|max:500',
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image',
         ]);
         $path = null;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('badges_images', 'public');
+            $path = $request->file('image')->store('images_badges', 'public');
         }
 
         // 1. Challenge aanmaken

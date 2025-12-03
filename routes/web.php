@@ -9,6 +9,7 @@ use App\Http\Controllers\BadgeController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ChallengeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
     Route::get('/challenge/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
 });
 
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/submit', [UploadController::class, 'index']);
+Route::get('/upload/{challenge}', [UploadController::class, 'show']);
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');

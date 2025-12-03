@@ -63,7 +63,7 @@
                 @endif
 
                 <div class="mt-8 text-center">
-                    <a href=""
+                    <a href="{{ route('upload.show', $challenge) }}"
                        class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
                         Lever nu in
                     </a>
