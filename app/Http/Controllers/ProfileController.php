@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Badge;
+use App\Models\BadgeUser;
 
 // vergeet dit niet
 
@@ -18,20 +19,15 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // Haal alle badges op
-        $badges = Badge::all();
-        $badges = Badge::latest()->take(3)->get();
+        // Haal ALLEEN badges op die de user heeft
+        $badges = Badge::whereIn('id', function ($query) use ($user) {
+            $query->select('id_badge')
+                ->from('badge_user')
+                ->where('user_id', $user->id);
+        })->take(4)
+            ->get();
 
-
-        // Bereken progressie naar volgende rank (dummy voor nu)
-        $progress = $user->progress ?? 0;
-
-        return view('profile.show', [
-            'user' => $user,
-            'badges' => $badges,
-            'rankname' => $user->rankname ?? 'Onbekend',
-            'rankimage' => $user->rankimage ?? '/img/default-rank.png',
-            'rank_progress' => $user->rank_progress ?? 0,
-        ]);
+        return view('profile.show', compact('user', 'badges'));
     }
+
 }

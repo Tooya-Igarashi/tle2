@@ -2,66 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\badge;
+use App\Models\Badge;
+use App\Models\BadgeUser;
 use Illuminate\Http\Request;
 
 class BadgeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $allBadges = Badge::all(); // alle badges ophalen
 
-        return view('badges.index', compact('allBadges'));
+    public function index(Request $request)
+    {
+        $user = $request->user();
+
+        // IDs van badges die de gebruiker heeft
+        $userBadgeIds = \DB::table('badge_user')
+            ->where('user_id', $user->id)
+            ->pluck('id_badge');
+
+        // Badges die de gebruiker al heeft
+        $BadgeUser = \App\Models\Badge::whereIn('id', $userBadgeIds)->get();
+
+        // Badges die de gebruiker nog niet heeft
+        $badges = \App\Models\Badge::whereNotIn('id', $userBadgeIds)->get();
+
+        return view('badges.index', compact('BadgeUser', 'badges'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(badge $badge)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(badge $badge)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, badge $badge)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(badge $badge)
-    {
-        //
-    }
 }

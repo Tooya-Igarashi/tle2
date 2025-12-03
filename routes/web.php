@@ -20,7 +20,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/badges', [\App\Http\Controllers\BadgeController::class, 'index'])->name('badges.library');
+    Route::get('/badges/library', [\App\Http\Controllers\BadgeController::class, 'index'])
+        ->name('badges.library');
 });
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
@@ -36,4 +37,4 @@ Route::get('/submit', function () {
 
 Route::resource('upload', UploadController::class);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
