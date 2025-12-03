@@ -26,7 +26,7 @@
 
                </div>
             <div class="pt-3">
-                <a class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga terug</a>
+                <a href="{{ route('dashboard') }}" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga terug</a>
 
             </div>
 
