@@ -86,4 +86,11 @@ class ChallengeController extends Controller
         return redirect()->route('dashboard')->with('success', 'Challenge created with steps!');
     }
 
+    public function allChallenges()
+    {
+        $challenges = Challenge::all();
+
+        return view('challenges.all', compact('challenges'));
+    }
+
 }

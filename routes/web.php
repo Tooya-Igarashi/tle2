@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ChallengeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
 });
 
 Route::middleware('auth')->group(function () {
