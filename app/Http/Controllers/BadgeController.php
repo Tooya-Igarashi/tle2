@@ -19,12 +19,14 @@ class BadgeController extends Controller
             ->pluck('id_badge');
 
         // Badges die de gebruiker al heeft
-        $BadgeUser = \App\Models\Badge::whereIn('id', $userBadgeIds)->get();
+        $BadgeUser = Badge::whereIn('id', $userBadgeIds)->get();
 
         // Badges die de gebruiker nog niet heeft
-        $badges = \App\Models\Badge::whereNotIn('id', $userBadgeIds)->get();
-
-        return view('badges.index', compact('BadgeUser', 'badges'));
+        $badges = Badge::whereNotIn('id', $userBadgeIds)->get();
+        $nogNietGehaald = $badges->count();
+        $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
+        $totalebadges = Badge::count();
+        return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalebadges', 'nogNietGehaald'));
     }
 
 }

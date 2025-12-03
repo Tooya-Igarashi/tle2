@@ -15,7 +15,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile page.
      */
-    public function show(Request $request): View
+    public function show(Request $request)
     {
         $user = $request->user();
 
@@ -27,7 +27,8 @@ class ProfileController extends Controller
         })->take(4)
             ->get();
 
-        return view('profile.show', compact('user', 'badges'));
+        $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
+        return view('profile.show', compact('user', 'badges', 'earnedBadgesCount'));
     }
 
 }

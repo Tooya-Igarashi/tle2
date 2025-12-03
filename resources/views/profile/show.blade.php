@@ -9,14 +9,6 @@
             <div class="flex flex-col items-center md:items-center">
                 <!-- Titel boven avatar, gecentreerd boven de avatar -->
                 <h3 class="text-xl font-semibold mb-2 text-center w-full">Profiel</h3>
-
-                <!-- Profielfoto -->
-                <div class="w-80 h-80 rounded-2xl overflow-hidden flex items-center justify-center bg-gray-200">
-                    <img src="{{ $user->profile_photo_url ?? '/img/default-avatar.png' }}"
-                         alt="Profielavatar"
-                         class="w-full h-full object-cover">
-                </div>
-
                 <!-- Username -->
                 <h2 class="mt-4 text-2xl font-bold">
                     {{ $user->name }}
@@ -25,11 +17,9 @@
                 <!-- Guides gedaan -->
                 <p class="mt-1 text-sm">
                     <span class="font-semibold">Guides gedaan:</span>
-                    {{ $user->guides_count ?? 0 }}
+                    {{ $earnedBadgesCount }}
                 </p>
             </div>
-
-
             {{-- Badge + Rank sectie --}}
             <div class="col-span-2 flex gap-6">
 
@@ -72,9 +62,9 @@
 
                     <div class="mt-4 w-full">
                         <div class="h-4 w-full rounded-full border border-black overflow-hidden">
-                            <div class="h-full bg-blue-500" style="width: {{ $user->rank_progress ?? 0 }}%;"></div>
+                            <div class="h-full bg-blue-500" style="width: {{ $earnedBadgesCount*200 }}%;"></div>
                         </div>
-                        <p class="text-center text-sm mt-1">{{ $user->rank }}%</p>
+                        <p class="text-center text-sm mt-1">{{ $earnedBadgesCount*5 }}%</p>
                     </div>
                 </div>
 
