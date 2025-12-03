@@ -3,11 +3,6 @@
 
     <div class=" p-14 flex flex-col md:flex-row gap-20 justify-center">
         <div class="bg-emerald-500 p-14 rounded-2xl ">
-{{--            <h2>{{$upload->$challenges->title}}</h2>--}}
-{{--            <p>{{$upload->challenges->difficulties->difficulty}}</p>--}}
-{{--            <p>{{$upload->$challenges->description}}</p>--}}
-            @foreach($challenges as $challenge)
-
                 <div class="pb-10">
                     <h1 class="text-2xl font-semibold mb-6">{{ $challenge->title }}</h1>
                     <p> {{$challenge->difficulty->difficulty}}</p>
@@ -29,7 +24,6 @@
                 <a href="{{ route('dashboard') }}" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga terug</a>
             </div>
 
-            @endforeach
 
         </div>
         <div>
