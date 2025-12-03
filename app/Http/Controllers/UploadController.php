@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Challenge;
 use App\Models\Upload;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -13,10 +14,14 @@ class UploadController extends Controller
      */
 
 
+
     use AuthorizesRequests;
     public function index()
     {
-        //
+        $challenges = Challenge::all();
+
+        return view('upload', compact('challenges'));
+
     }
 
     /**
@@ -42,22 +47,23 @@ class UploadController extends Controller
 
         $photo = new Upload();
         $photo->content = $nameOfFile;
-        $photo->user_id = 1;
+        $photo->user_id = auth()->id();
         $photo->challenge_id = 1;
         $photo->pending = false;
         $photo->save();
 
 
-//        return redirect()->route('upload.index');
-return view('upload.index', compact('photo'))->with('success', 'Je bestand is succesvol geüpload!');
+        return redirect()->route('dashboard')->with('success', 'Je bestand is succesvol geüpload!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Upload $upload)
+    public function show(Request $request,Upload $upload)
     {
-        //
+        $challenges = Challenge::all();
+//        dd($challenges);
+        return view('upload', compact('upload', 'request','challenges'));
     }
 
     /**

@@ -5,17 +5,11 @@ use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Middleware\AdminMiddleware;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-//
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
+use App\Http\Controllers\BadgeController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ChallengeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/challenge/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
 });
 
 Route::middleware('auth')->group(function () {
@@ -24,16 +18,15 @@ Route::middleware('auth')->group(function () {
         ->name('badges.library');
 });
 
+Route::get('/submit', [UploadController::class, 'index']);
+
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');
     Route::post('/admin/challenges', [ChallengeController::class, 'store'])->name('challenges.store');
+    Route::post('/admin/badges', [BadgeController::class, 'store'])->name('badges.store');
+    Route::get('/admin/badges', [BadgeController::class, 'create'])->name('badges.create');
 });
 
-
-require __DIR__ . '/auth.php';
-Route::get('/submit', function () {
-    return view('upload');
-})->name('submit');
 
 Route::resource('upload', UploadController::class);
 

@@ -9,16 +9,22 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
                     </a>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')">
-                        {{ __('Create') }}
-                    </x-nav-link>
-                </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')">
+                        {{ __('Create Challenge') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('badges.create')" :active="request()->routeIs('badges.create')">
+                        {{ __('Create Badge') }}
                     </x-nav-link>
                 </div>
             </div>

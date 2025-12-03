@@ -17,6 +17,8 @@ class Challenge extends Model
         'badge_id',
         'published',
         'duration',
+        'image',
+        'image_path'
     ];
 
     public function author()
