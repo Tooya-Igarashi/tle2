@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Step;
@@ -9,10 +10,10 @@ class StepFactory extends Factory
 {
     protected $model = Step::class;
 
-    public function definition():array
+    public function definition(): array
     {
         return [
-            'step_number' => $this->faker->numberBetween(1, 10),
+            'step_number' => $this->faker->numberBetween(1, 5),
             'step_description' => $this->faker->paragraph,
             'challenge_id' => Challenge::factory(),
         ];
