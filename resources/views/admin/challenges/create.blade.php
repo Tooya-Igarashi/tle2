@@ -153,7 +153,6 @@
         </form>
     </div>
 
-    @push('scripts')
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const hasSteps = document.getElementById('hasSteps');
@@ -222,6 +221,5 @@
                 }
             });
         </script>
-    @endpush
 
 </x-app-layout>

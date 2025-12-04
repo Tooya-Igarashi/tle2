@@ -17,7 +17,7 @@ class ChallengeSeeder extends Seeder
 
         // create challenges and steps, and fill pivot `user_challenge`
         Challenge::factory()
-            ->count(10)
+            ->count(3)
             ->create()
             ->each(function ($challenge) use ($users) {
                 Step::factory()->count(1)->create(['challenge_id' => $challenge->id]);
