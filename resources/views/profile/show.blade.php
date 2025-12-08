@@ -1,10 +1,7 @@
 <x-app-layout>
     <div class="bg-blue-400 border rounded-2xl mt-0 shadow p-6 max-w-7xl mx-auto">
-
         {{-- Bovenste grid: profiel + badges + rank --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-            {{-- Linkerkant: profielfoto + naam --}}
             {{-- Linkerkant: profielfoto + naam --}}
             <div class="flex flex-col items-center md:items-center">
                 <!-- Titel boven avatar, gecentreerd boven de avatar -->
@@ -13,7 +10,6 @@
                 <h2 class="mt-4 text-2xl font-bold">
                     {{ $user->name }}
                 </h2>
-
                 <!-- Guides gedaan -->
                 <p class="mt-1 text-sm">
                     <span class="font-semibold">Guides gedaan:</span>

@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/badges/library', [\App\Http\Controllers\BadgeController::class, 'index'])
         ->name('badges.library');
+    Route::get('/badges/{badge}', [BadgeController::class, 'show'])->name('badges.show');
+
 });
 
 Route::get('/submit', [UploadController::class, 'index']);

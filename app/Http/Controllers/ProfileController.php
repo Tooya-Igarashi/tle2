@@ -20,12 +20,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // Haal ALLEEN badges op die de user heeft
-        $badges = Badge::whereIn('id', function ($query) use ($user) {
-            $query->select('id_badge')
-                ->from('badge_user')
-                ->where('user_id', $user->id);
-        })->take(4)
-            ->get();
+        $badges = $user->badges()->take(4)->get();
 
         $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
         return view('profile.show', compact('user', 'badges', 'earnedBadgesCount'));

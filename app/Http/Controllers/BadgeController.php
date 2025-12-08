@@ -55,4 +55,20 @@ class BadgeController extends Controller
         return view('admin.badges.create-badge');
     }
 
+    public function show(Badge $badge, Request $request)
+    {
+        $user = $request->user();
+
+        // Check of user deze badge heeft
+        $owned = BadgeUser::where('user_id', $user->id)
+            ->where('id_badge', $badge->id)
+            ->first();
+
+        // Challenge-koppeling (als badge gekoppeld is aan challenge)
+        $challenge = Challenge::where('badge_id', $badge->id)->first();
+        $previousBadge = Badge::where('id', '<', $badge->id)->orderBy('id', 'desc')->first();
+        $nextBadge = Badge::where('id', '>', $badge->id)->orderBy('id')->first();
+        return view('badges.show', compact('badge', 'owned', 'challenge', 'previousBadge', 'nextBadge'));
+
+    }
 }
