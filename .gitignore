@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 .env
+.env.example
 .env.backup
 .env.production
 .phpactor.json
@@ -22,3 +23,5 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/deployment-tle/
+/deployment-tle.zip

@@ -10,13 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('badges', function (Blueprint $table) {
-            $table->id();
-            $table->text('image')->nullable();
-            $table->string('name');
-            $table->longText('description')->nullable();
-
-            $table->timestamps();
+        Schema::table('challenges', function (Blueprint $table) {
+            $table->string('image_path')->nullable()->after('description');
         });
     }
 
@@ -25,6 +20,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('badges');
+        //
     }
 };
