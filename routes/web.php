@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/admin/submissions/{id}/approve', [\App\Http\Controllers\AdminSubmissionController::class, 'approve'])->name('submission.approve');
 Route::post('/admin/submissions/{id}/decline', [\App\Http\Controllers\AdminSubmissionController::class, 'decline'])->name('submission.decline');
-Route::post('/admin/submissions/{id}/approve', [\App\Http\Controllers\AdminSubmissionController::class, 'edit'])->name('submission.edit');
+Route::post('/admin/submissions/{id}/edit', [\App\Http\Controllers\AdminSubmissionController::class, 'edit'])->name('submission.edit');
+Route::delete('/admin/submissions/{id}/delete', [\App\Http\Controllers\AdminSubmissionController::class, 'delete'])->name('submission.delete');
 
 require __DIR__.'/auth.php';
