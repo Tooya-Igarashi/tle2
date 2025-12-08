@@ -17,20 +17,26 @@
                 <!-- Navigation Links -->
                 <div class="hidden sm:flex items-center gap-6 bg-white/90 px-4 py-2 rounded-2xl shadow-sm">
 
-                    <x-nav-link class="text-black hover:text-gray-700" :href="route('dashboard')"
-                                :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    {{-- Home --}}
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-black' : 'border-transparent hover:border-black' }}">
+                        Home
+                    </a>
 
-                    <x-nav-link class="text-black hover:text-gray-700" :href="route('challenges.create')"
-                                :active="request()->routeIs('challenges.create')">
-                        {{ __('Create Challenge') }}
-                    </x-nav-link>
+                    {{-- Create Challenge --}}
+                    <a
+                        href="{{ route('challenges.create') }}"
+                        class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('challenges.create') ? 'border-black' : 'border-transparent hover:border-black' }}">
+                        Create Challenge
+                    </a>
 
-                    <x-nav-link class="text-black hover:text-gray-700" :href="route('badges.create')"
-                                :active="request()->routeIs('badges.create')">
-                        {{ __('Create Badge') }}
-                    </x-nav-link>
+                    {{-- Create Badge --}}
+                    <a
+                        href="{{ route('badges.create') }}"
+                        class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('badges.create') ? 'border-black' : 'border-transparent hover:border-black' }}">
+                        Create Badge
+                    </a>
 
                 </div>
 
@@ -99,7 +105,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white border-t border-sky-200">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Home') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')">
