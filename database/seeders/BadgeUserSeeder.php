@@ -19,7 +19,7 @@ class BadgeUserSeeder extends Seeder
 
         // randomly assign badges
         foreach ($users as $user) {
-            $take = rand(0, min(3, $badges->count()));
+            $take = rand(0, min(1, $badges->count()));
 
             if ($take === 0) {
                 continue;

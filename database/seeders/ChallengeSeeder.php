@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,17 +13,17 @@ class ChallengeSeeder extends Seeder
     public function run()
     {
         // ensure sample users exist
-        $users = User::factory()->count(8)->create();
+        $users = User::factory()->count(1)->create();
 
         // create challenges and steps, and fill pivot `user_challenge`
         Challenge::factory()
-            ->count(10)
+            ->count(3)
             ->create()
             ->each(function ($challenge) use ($users) {
-                Step::factory()->count(3)->create(['challenge_id' => $challenge->id]);
+                Step::factory()->count(1)->create(['challenge_id' => $challenge->id]);
 
                 // attach a few users to user_challenge table
-                $randomUsers = $users->random(rand(1, 3));
+                $randomUsers = $users->random(rand(1, $users->count()));
                 foreach ($randomUsers as $u) {
                     DB::table('user_challenge')->insert([
                         'id_user' => $u->id,

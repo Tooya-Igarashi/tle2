@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -7,8 +8,10 @@ use App\Http\Controllers\ChallengeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\BadgeController;
 
+Route::get('/', [RegisteredUserController::class, 'create'])
+    ->name('register');
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [ChallengeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/index', [ChallengeController::class, 'dashboard'])->name('dashboard');
     Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
     Route::get('/challenge/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
 });

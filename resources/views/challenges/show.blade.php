@@ -7,7 +7,7 @@
                 <div class="flex flex-col md:flex-row gap-6">
 
                     <div class="flex-shrink-0 md:w-1/3">
-                        <img src="{{ $challenge->image_url }}"
+                        <img src="{{ $challenge->image_path }}"
                              alt="Challenge Image"
                              class="rounded-xl shadow-md w-full h-auto">
                     </div>

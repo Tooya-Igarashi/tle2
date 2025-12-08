@@ -57,7 +57,7 @@
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
 
 
-                            <img src="{{ asset('images/ExamplePicture.jpg') }}" alt="Voorbeeld foto">
+                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">
 
                             <h3 class="text-lg font-bold text-black">
                                 {{ $challenge->title }}

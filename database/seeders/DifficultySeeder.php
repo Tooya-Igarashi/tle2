@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -8,7 +9,7 @@ class DifficultySeeder extends Seeder
 {
     public function run(): void
     {
-        Difficulty::factory()->count(3)->state(new \Illuminate\Database\Eloquent\Factories\Sequence(
+        Difficulty::factory()->count(0)->state(new \Illuminate\Database\Eloquent\Factories\Sequence(
             ['difficulty' => 'Easy'],
             ['difficulty' => 'Medium'],
             ['difficulty' => 'Hard'],
