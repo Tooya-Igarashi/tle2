@@ -48,6 +48,6 @@ class Challenge extends Model
 
     public function badge()
     {
-        return $this->belongsTo(Badge::class);
+        return $this->belongsTo(Badge::class, 'badge_id');
     }
 }

@@ -97,4 +97,24 @@ class ChallengeController extends Controller
         return view('challenges.all', compact('challenges'));
     }
 
+    public function userHasBadgeForChallenge($challenge)
+    {
+        $user = auth()->user();
+
+        if (!$user || !$challenge->badge_id) {
+            return false;
+        }
+
+        return $user->badges->contains('id', $challenge->badge_id);
+    }
+
+    public function showBadge($id)
+    {
+        $challenge = Challenge::findOrFail($id);
+
+        $hasBadge = $this->userHasBadgeForChallenge($challenge);
+
+        return view('challenges.show', compact('challenge', 'hasBadge'));
+    }
+
 }
