@@ -38,7 +38,10 @@ class ChallengeController extends Controller
     {
         $difficulties = Difficulty::all();
         $badges = Badge::all();
-        return view('admin.challenges.create', compact('difficulties', 'badges'));
+        if (\Auth::user()->is_admin === 1){
+        return view('admin.challenges.create', compact('difficulties', 'badges'));}
+        else {
+            return view('user.create', compact('difficulties', 'badges'));}
     }
 
     public function store(Request $request)

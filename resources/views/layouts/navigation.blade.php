@@ -17,11 +17,19 @@
                     </x-nav-link>
                 </div>
 
+                @if(\Illuminate\Support\Facades\Auth::user()->is_admin === 1)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')">
                         {{ __('Create Challenge') }}
                     </x-nav-link>
                 </div>
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
+                            {{ __('Maak een Challenge') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('badges.create')" :active="request()->routeIs('badges.create')">
                         {{ __('Create Badge') }}
