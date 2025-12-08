@@ -65,10 +65,30 @@ class BadgeController extends Controller
             ->first();
 
         // Challenge-koppeling (als badge gekoppeld is aan challenge)
+        $user = $request->user();
+
+// Alle badges die de user heeft
+        $userBadges = $user->badges()->pluck('badges.id')->toArray();
+
+// Alle badges, gesorteerd: eerst verdiend, dan niet-verdiend
+        $allBadges = Badge::orderBy('id')->get()->sortBy(function ($b) use ($userBadges) {
+            return in_array($b->id, $userBadges) ? 0 : 1;
+        })->values(); // reset keys
+
+// Vind de index van de huidige badge
+        $currentIndex = $allBadges->search(function ($b) use ($badge) {
+            return $b->id === $badge->id;
+        });
+
+// Vorige en volgende badge bepalen
+        $previousBadge = $currentIndex > 0 ? $allBadges[$currentIndex - 1] : null;
+        $nextBadge = $currentIndex < $allBadges->count() - 1 ? $allBadges[$currentIndex + 1] : null;
+
+// Challenge koppeling
         $challenge = Challenge::where('badge_id', $badge->id)->first();
-        $previousBadge = Badge::where('id', '<', $badge->id)->orderBy('id', 'desc')->first();
-        $nextBadge = Badge::where('id', '>', $badge->id)->orderBy('id')->first();
+
         return view('badges.show', compact('badge', 'owned', 'challenge', 'previousBadge', 'nextBadge'));
+
 
     }
 }

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="relative bg-blue-400 border rounded-2xl mt-10 shadow p-6 max-w-7xl mx-auto">
+    <div class="relative bg-blue-400  rounded-2xl mt-0 shadow p-6 max-w-3xl mx-auto">
 
         <!-- Terug link linksboven -->
         <div class="absolute top-4 left-4">
@@ -25,38 +25,40 @@
                     ✘ Je bezit deze badge nog niet
                 </span>
             @endif
-
             <!-- Badge + pijltjes -->
             <div class="flex items-center justify-center gap-6">
                 <!-- Vorige badge -->
-                @if($previousBadge)
-                    <a href="{{ route('badges.show', $previousBadge->id) }}"
-                       class="flex items-center gap-2 text-7xl font-bold text-gray-950 hover:text-gray-700">
-                        &#8249;
-                        <span class="text-lg font-normal">Vorige badge</span>
-                    </a>
-                @else
-                    <div class="w-44"></div>
-                @endif
+                <div class="w-32 flex justify-end">
+                    @if($previousBadge)
+                        <a href="{{ route('badges.show', $previousBadge->id) }}"
+                           class="flex items-center gap-2 text-gray-950 hover:text-gray-700">
+                            <span class="text-7xl font-bold">&#8249;</span>
+                            <span class="text-lg font-normal">Vorige Badge</span>
+                        </a>
+                    @endif
+                </div>
 
                 <!-- Badge afbeelding -->
-                <div class="relative w-48 h-48 rounded-full overflow-hidden items-center">
+                <div class="relative w-48 h-48 rounded-full overflow-hidden flex-shrink-0">
                     <img src="{{ $badge->image }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
                     @if (!$owned)
                         <div class="absolute inset-0 bg-black opacity-70 rounded-full"></div>
                     @endif
                 </div>
+
                 <!-- Volgende badge -->
-                @if($nextBadge)
-                    <a href="{{ route('badges.show', $nextBadge->id) }}"
-                       class="flex items-center gap-2 text-7xl font-bold text-gray-950 hover:text-gray-700">
-                        <span class="text-lg font-normal">Volgende badge</span> &#8250;
-                    </a>
-                @else
-                    <div class="w-8"></div>
-                @endif
+                <div class="w-32 flex justify-start">
+                    @if($nextBadge)
+                        <a href="{{ route('badges.show', $nextBadge->id) }}"
+                           class="flex items-center gap-2 text-gray-950 hover:text-gray-700">
+                            <span class="text-lg font-normal">Volgende Badge</span>
+                            <span class="text-7xl font-bold">&#8250;</span>
+                        </a>
+                    @endif
+                </div>
 
             </div>
+
 
             @if ($owned && $owned->created_at)
                 <p class="text-gray-950 mb-4">
@@ -66,7 +68,7 @@
                 <p class="text-gray-950 mb-4">🗓️ Nog niet behaald</p>
             @endif
 
-            <p>Hoe heb je deze badge gehaald:</p>
+            <p class="-mt-5 mb-1">Hoe heb je deze badge gehaald:</p>
 
             <!-- Beschrijving -->
             <p class="text-center max-w-xl mb-4 text-lg text-gray-950">
