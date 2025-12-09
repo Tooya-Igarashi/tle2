@@ -131,7 +131,7 @@ class ChallengeController extends Controller
             ->filter(request(['search', 'difficulty']))
             ->get();
 
-        return view('dashboard', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
     }
 
 }
