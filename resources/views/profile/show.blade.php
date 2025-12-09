@@ -6,7 +6,7 @@
                 {{-- Linkerkant: profielfoto + naam --}}
                 <div class="flex flex-col items-center md:items-center">
                     <!-- Titel boven avatar, gecentreerd boven de avatar -->
-                    <h3 class="text-xl font-semibold mb-2 text-center w-full">Profiel</h3>
+                    <h3 class="text-3xl font-semibold mb-1">Profiel</h3>
                     <!-- Username -->
                     <h2 class="mt-4 text-2xl font-bold">
                         {{ $user->name }}
@@ -23,7 +23,7 @@
                     {{-- Badges kolom --}}
                     <div class="flex flex-col items-center gap-4">
                         <!-- Titel boven de badges -->
-                        <h3 class="text-xl font-semibold mb-2">Mijn badges</h3>
+                        <h3 class="text-3xl font-semibold mb-2">Mijn badges</h3>
 
                         <!-- Grid met badges 2x2 -->@if($badges->isEmpty())
                             <div class="flex flex-col items-center justify-center gap-4 w-full mt-4">
@@ -46,14 +46,14 @@
                             </div>
                         @endif
                         <a href="{{ route('badges.library') }}"
-                           class="px-4 py-2 rounded-md text-center bg-green-700">
+                           class="px-4 py-2 rounded-md text-center bg-yellow-500">
                             Alle badges
                         </a>
                     </div>
 
                     {{-- Rank kolom --}}
                     <div class="flex flex-col items-center gap-0 w-1/2 flex-shrink-0 ml-40">
-                        <h3 class="text-xl font-semibold mb-3">Rang: {{ $user->rankname }}</h3>
+                        <h3 class="text-3xl font-semibold mb-3">Rang: {{ $user->rankname }}</h3>
 
                         <div class="w-80 h-80 rounded-full overflow-hidden flex items-center justify-center">
                             <img src="{{ $user->rankimage }}" alt="Rank" class="w-full h-full object-cover">
