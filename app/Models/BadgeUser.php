@@ -13,4 +13,7 @@ class BadgeUser extends Pivot
         'user_id',
         'acquire',
     ];
+    protected $casts = [
+        'acquire' => 'datetime',
+    ];
 }

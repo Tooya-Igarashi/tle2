@@ -16,11 +16,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/badges/library', [BadgeController::class, 'index'])
+        ->name('badges.library');
+    Route::get('/badges/{badge}', [BadgeController::class, 'show'])->name('badges.show');
+
+
 });
 
+Route::get('/user/create', [ChallengeController::class, 'create'])->name('user.create');
+Route::post('/user/create', [ChallengeController::class, 'store'])->name('user.store');
 Route::get('/submit', [UploadController::class, 'index']);
 Route::get('/upload/{challenge}', [UploadController::class, 'show']);
 

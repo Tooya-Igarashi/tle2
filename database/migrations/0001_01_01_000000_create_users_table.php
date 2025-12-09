@@ -18,7 +18,9 @@ return new class extends Migration {
             $table->string('password');
             $table->rememberToken();
             $table->boolean('is_admin')->default(false);
+            $table->string('rankname')->nullable();
             $table->integer('rank')->default(0);
+            $table->string('rankimage')->nullable();
             $table->timestamps();
         });
 

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <main class="min-h-screen py-8 px-4">
+    <main class="bg-white py-8 px-4">
         <div class="max-w-3xl mx-auto">
 
             <div class="rounded-2xl shadow-md p-6 md:p-8 bg-green-200">
@@ -62,12 +62,40 @@
                     </ul>
                 @endif
 
-                <div class="mt-8 text-center">
-                    <a href="{{ route('upload.show', $challenge) }}"
-                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                        Lever nu in
-                    </a>
-                </div>
+                    @php
+                        $user = auth()->user();
+                        $hasBadge = false;
+
+                        if ($user && isset($challenge) && $challenge->badge_id) {
+
+                            $hasBadge = $user->badges->contains('id', $challenge->badge_id);
+                        }
+                    @endphp
+
+                    @auth
+
+                    @if($hasBadge)
+                            <div class="flex items-center gap-4">
+                                <img src="{{ asset('storage/' . $challenge->badge->image) }}" class="w-20 h-20 ">
+                                <div>
+                                    <p class="font-semibold">Je hebt deze badge al verdiend!</p>
+                                    <p>{{ $challenge->badge->name }}</p>
+                                </div>
+                                <div class="pt-3">
+                                    <a href="{{ route('dashboard') }}" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga terug</a>
+                                </div>
+
+                            </div>
+                        @else
+                                <div class="mt-8 text-center">
+                                    <a href="{{ route('upload.show', $challenge) }}"
+                                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                                        Lever nu in
+                                    </a>
+                                </div>
+                        @endif
+                    @endauth
+
 
             </div>
 
