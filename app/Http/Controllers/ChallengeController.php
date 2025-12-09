@@ -10,9 +10,21 @@ use App\Models\Badge;
 
 class ChallengeController extends Controller
 {
+    public function index()
+    {
+        $difficulties = Difficulty::all();
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties]);
+    }
+
+
     public function dashboard(Request $request)
     {
         $search = $request->input('search');
+
+        $difficulties = Difficulty::all();
 
         $challenges = Challenge::query()
             ->when($search, function ($query, $search) {
@@ -22,7 +34,14 @@ class ChallengeController extends Controller
             ->take(3)
             ->get();
 
-        return view('dashboard', ['challenges' => $challenges]);
+//        $challenges = challenge::all();
+
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+
+        return view('dashboard', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
+
     }
 
     public function show(Challenge $challenge)
@@ -60,6 +79,8 @@ class ChallengeController extends Controller
             $path = $request->file('image_path')->store('challenge_images', 'public');
         }
 
+
+
 // 1. Challenge aanmaken
         $challenge = new Challenge();
         $challenge->title = $validated['title'];
@@ -90,11 +111,28 @@ class ChallengeController extends Controller
         return redirect()->route('dashboard')->with('success', 'Challenge created with steps!');
     }
 
-    public function allChallenges()
+    public function allChallenges(Request $request)
     {
-        $challenges = Challenge::all();
+        $search = $request->input('search');
 
-        return view('challenges.all', compact('challenges'));
+        $difficulties = Difficulty::all();
+
+        $challenges = Challenge::query()
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })
+            ->take(3)
+            ->get();
+
+//        $challenges = challenge::all();
+
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+
+        return view('dashboard', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
     }
 
 }
+

@@ -15,4 +15,7 @@ class Difficulty extends Model
     {
         return $this->hasMany(Challenge::class);
     }
+
+
 }
+
