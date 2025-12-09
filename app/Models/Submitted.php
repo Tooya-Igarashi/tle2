@@ -11,12 +11,14 @@ class Submitted extends Model
 
     protected $table = 'submitted';
 
+
     protected $fillable = [
         'user_id',
         'challenge_id',
         'content',
         'pending',
         'date',
+        'token',
     ];
 
     public function user()

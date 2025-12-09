@@ -6,6 +6,10 @@ use App\Models\Challenge;
 use App\Models\Upload;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Submitted;
+use App\Mail\SubmittedMail;
+use Illuminate\Support\Facades\Mail;
 
 class UploadController extends Controller
 {
@@ -37,24 +41,30 @@ class UploadController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function store(Request $request, Challenge $challenge)
     {
         $request->validate([
             'content' => ['required', 'image', 'max:2048'],
         ]);
 
-        $nameOfFile = $request->file('content')->storePublicly('challenge_submits', 'public');
+        $file = $request->file('content');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('challenge_submits'), $filename);
 
-        $photo = new Upload();
-        $photo->content = $nameOfFile;
-        $photo->user_id = auth()->id();
-        $photo->challenge_id = 1;
-        $photo->pending = false;
-        $photo->save();
+        $submitted = Submitted::create([
+            'content' => 'challenge_submits/' . $filename,
+            'user_id' => auth()->id(),
+            'challenge_id' => $challenge->id,
+            'token' => Str::random(40),
+            'pending' => false,
+        ]);
 
+        Mail::to('jordi1030@outlook.com')->send(new SubmittedMail($submitted));
 
-        return redirect()->route('dashboard')->with('success', 'Je bestand is succesvol geüpload!');
+        return view('upload.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -62,7 +72,6 @@ class UploadController extends Controller
     public function show(Request $request, Challenge $challenge)
     {
         $challenges = Challenge::where('id', $challenge->challenge_id);
-//        dd($challenges);
         return view('upload', compact('challenge', 'request', 'challenges'));
     }
 
@@ -88,6 +97,39 @@ class UploadController extends Controller
     public function destroy(Upload $upload)
     {
         //
+    }
+
+    public function approve($id, $token)
+    {
+        $submitted = Submitted::findOrFail($id);
+        if ($submitted->pending === true) {
+            return view('dashboard', ['message' => 'Inzending is al beoordeeld.']);
+        }
+
+        if ($submitted->token !== $token) {
+            abort(403, 'Invalid token');
+        }
+
+        $submitted->pending = true; // ✔ accepted
+        $submitted->token = null;   // token ongeldig maken
+        $submitted->save();
+
+        return view('submission_result', ['message' => 'Inzending geaccepteerd!']);
+    }
+
+    public function reject($id, $token)
+    {
+        $submitted = Submitted::findOrFail($id);
+
+        if ($submitted->token !== $token) {
+            abort(403, 'Invalid token');
+        }
+
+        $submitted->pending = false; // ❌ rejected
+        $submitted->token = null;
+        $submitted->save();
+
+        return view('submission_result', ['message' => 'Inzending afgewezen.']);
     }
 
 
