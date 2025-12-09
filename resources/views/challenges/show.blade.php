@@ -62,26 +62,12 @@
                     </ul>
                 @endif
 
-{{--                <div>--}}
-{{--                    <img src="{{asset($challenge->badge->image)}}" alt="{{$challenge->badge->name}}" class="h-20 rounded-lg  object-cover">--}}
-{{--                    <p>{{$challenge->badge->name}}</p>--}}
-{{--                    <p>{{$challenge->badge->description}}</p>--}}
-{{--                </div>--}}
-
-
-{{--                <div class="mt-8 text-center">--}}
-{{--                    <a href="{{ route('upload.show', $challenge) }}"--}}
-{{--                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">--}}
-{{--                        Lever nu in--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-
                     @php
                         $user = auth()->user();
                         $hasBadge = false;
 
                         if ($user && isset($challenge) && $challenge->badge_id) {
-                            // via de relatie van de user
+
                             $hasBadge = $user->badges->contains('id', $challenge->badge_id);
                         }
                     @endphp
@@ -89,7 +75,6 @@
                     @auth
 
                     @if($hasBadge)
-                            {{-- Badge tonen, geen knop --}}
                             <div class="flex items-center gap-4">
                                 <img src="{{ asset('storage/' . $challenge->badge->image) }}" class="w-20 h-20 ">
                                 <div>
