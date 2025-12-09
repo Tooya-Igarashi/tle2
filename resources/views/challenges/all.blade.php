@@ -50,9 +50,9 @@
 
                 @forelse($challenges as $challenge)
                     <div
-                        class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+                        class="{{ $challenge->completed ? 'bg-green-700 border-8 border-yellow-400' : 'bg-green-700 border border-gray-200' }} border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
-
+{{--@dd($challenge->completed)--}}
                             {{-- Afbeelding --}}
                             <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"
                                  class="w-full h-40 object-cover rounded-xl">
