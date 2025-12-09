@@ -168,7 +168,7 @@ class ChallengeController extends Controller
 
         $hasBadge = $this->userHasBadgeForChallenge($challenge);
 
-        return view('challenges.show', compact('challenge', 'hasBadge'));
+        return view('challenges.show', 'dashboard', compact('challenge', 'hasBadge'));
     }
 
 }
