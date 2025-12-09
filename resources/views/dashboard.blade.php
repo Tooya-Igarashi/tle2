@@ -45,6 +45,28 @@
             </form>
         </div>
 
+        <div class="max-w-7xl mx-auto flex-row px-4 py-10">
+
+            <form method="GET" action="{{ route('dashboard') }}" class="mb-6 flex gap-4">
+                <select name="difficulty" class="bg-gray-800 border border-gray-700 rounded px-3 py-2">
+                    <option value="">All</option>
+                    @foreach($difficulties as $difficulty)
+                        <option value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
+                            {{ $difficulty->difficulty }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">
+                    Filter
+                </button>
+
+                <a href="{{ route('dashboard') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
+                    Reset
+                </a>
+            </form>
+        </div>
+
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-xl font-bold mb-4 text-gray-800">Challenges</h2>
