@@ -8,8 +8,6 @@ use App\Http\Controllers\ChallengeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\BadgeController;
 
-Route::get('/', [RegisteredUserController::class, 'create'])
-    ->name('register');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/index', [ChallengeController::class, 'dashboard'])->name('dashboard');
     Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
@@ -22,6 +20,8 @@ Route::middleware('auth')->group(function () {
         ->name('badges.library');
 });
 
+Route::get('/user/create', [ChallengeController::class, 'create'])->name('user.create');
+Route::post('/user/create', [ChallengeController::class, 'store'])->name('user.store');
 Route::get('/submit', [UploadController::class, 'index']);
 Route::get('/upload/{challenge}', [UploadController::class, 'show']);
 

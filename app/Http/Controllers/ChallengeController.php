@@ -22,7 +22,18 @@ class ChallengeController extends Controller
             ->take(3)
             ->get();
 
-        return view('dashboard', ['challenges' => $challenges]);
+        $user = auth()->user();
+        $challengeAll = Challenge::all();
+
+        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
+        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+
+        // Per challenge bepalen of completed
+        foreach ($challengeAll as $challenge) {
+            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+        }
+
+        return view('dashboard', ['challenges' => $challenges, 'challenge' => $challengeAll]);
     }
 
     public function show(Challenge $challenge)
@@ -38,7 +49,10 @@ class ChallengeController extends Controller
     {
         $difficulties = Difficulty::all();
         $badges = Badge::all();
-        return view('admin.challenges.create', compact('difficulties', 'badges'));
+        if (\Auth::user()->is_admin === 1){
+        return view('admin.challenges.create', compact('difficulties', 'badges'));}
+        else {
+            return view('user.create', compact('difficulties', 'badges'));}
     }
 
     public function store(Request $request)
@@ -92,7 +106,16 @@ class ChallengeController extends Controller
 
     public function allChallenges()
     {
+        $user = auth()->user();
         $challenges = Challenge::all();
+
+        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
+        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+
+        // Per challenge bepalen of completed
+        foreach ($challenges as $challenge) {
+            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+        }
 
         return view('challenges.all', compact('challenges'));
     }

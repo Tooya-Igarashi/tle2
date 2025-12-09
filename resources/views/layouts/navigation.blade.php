@@ -24,23 +24,27 @@
                         Home
                     </a>
 
-                    {{-- Create Challenge --}}
-                    <a
-                        href="{{ route('challenges.create') }}"
-                        class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('challenges.create') ? 'border-black' : 'border-transparent hover:border-black' }}">
-                        Create Challenge
-                    </a>
-
-                    {{-- Create Badge --}}
-                    <a
-                        href="{{ route('badges.create') }}"
-                        class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('badges.create') ? 'border-black' : 'border-transparent hover:border-black' }}">
-                        Create Badge
-                    </a>
-
+                @if(Auth::user()->is_admin === 1)
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('challenges.create')" :active="request()->routeIs('challenges.create')">
+                        {{ __('Create Challenge') }}
+                    </x-nav-link>
                 </div>
-
-
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
+                            {{ __('Maak een Challenge') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+                @if(Auth::user()->is_admin !== 1)
+                @else
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('badges.create')" :active="request()->routeIs('badges.create')">
+                        {{ __('Create Badge') }}
+                    </x-nav-link>
+                </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
