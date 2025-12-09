@@ -15,11 +15,12 @@
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
             <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
                 @forelse($BadgeUser as $badge)
-                    <div class="w-20 h-20 rounded-full overflow-hidden border flex items-center justify-center">
-                        <img src="{{ $badge->image }}" alt="{{ $badge->name }}"
-                             class="w-full h-full object-cover hover:opacity-70">
-
-                    </div>
+                    <a href="{{ route('badges.show', $badge->id) }}">
+                        <div class="w-20 h-20 rounded-full overflow-hidden border flex items-center justify-center">
+                            <img src="{{ $badge->image }}" alt="{{ $badge->name }}"
+                                 class="w-full h-full object-cover hover:opacity-70">
+                        </div>
+                    </a>
                 @empty
                     <p class="text-gray-300">Je hebt nog geen badges.</p>
                 @endforelse
@@ -32,11 +33,13 @@
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
             <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
                 @foreach($badges as $badge)
-                    <div
-                        class="w-20 h-20 rounded-full overflow-hidden border relative flex items-center justify-center">
-                        <img src="{{ $badge->image }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black opacity-80 hover:opacity-70 transition"></div>
-                    </div>
+                    <a href="{{ route('badges.show', $badge->id) }}">
+                        <div
+                            class="w-20 h-20 rounded-full overflow-hidden relative flex items-center justify-center">
+                            <img src="{{ $badge->image }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black opacity-80 hover:opacity-70 transition"></div>
+                        </div>
+                    </a>
                 @endforeach
             </div>
         </div>
