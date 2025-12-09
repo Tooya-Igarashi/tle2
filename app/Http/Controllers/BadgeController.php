@@ -28,7 +28,6 @@ class BadgeController extends Controller
     }
 
     public function store(Request $request)
-
     {
         $validated = $request->validate([
             'name' => 'required|string|max:50',
@@ -65,7 +64,6 @@ class BadgeController extends Controller
             ->first();
 
         // Challenge-koppeling (als badge gekoppeld is aan challenge)
-        $user = $request->user();
 
 // Alle badges die de user heeft
         $userBadges = $user->badges()->pluck('badges.id')->toArray();
