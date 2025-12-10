@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="bg-white">
+    <div class="bg-white pb-20">
         <div class="bg-blue-400 border rounded-2xl mt-0 shadow p-6 max-w-7xl mx-auto">
             {{-- Bovenste grid: profiel + badges + rank --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
