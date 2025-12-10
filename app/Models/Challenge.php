@@ -21,6 +21,22 @@ class Challenge extends Model
         'image_path'
     ];
 
+    public function scopeFilter($query, array $filters)
+    {
+
+        $query->when($filters['search'] ?? null, function ($q, $search) {
+            $q->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        });
+
+        $query->when($filters['difficulty'] ?? null, function ($q, $difficultyId) {
+            $q->where('difficulty_id', $difficultyId);
+        });
+        return $query;
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -48,6 +64,6 @@ class Challenge extends Model
 
     public function badge()
     {
-        return $this->belongsTo(Badge::class);
+        return $this->belongsTo(Badge::class, 'badge_id');
     }
 }

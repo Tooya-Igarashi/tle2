@@ -10,9 +10,21 @@ use App\Models\Badge;
 
 class ChallengeController extends Controller
 {
+    public function index()
+    {
+        $difficulties = Difficulty::all();
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties]);
+    }
+
+
     public function dashboard(Request $request)
     {
         $search = $request->input('search');
+
+        $difficulties = Difficulty::all();
 
         $challenges = Challenge::query()
             ->when($search, function ($query, $search) {
@@ -22,7 +34,21 @@ class ChallengeController extends Controller
             ->take(3)
             ->get();
 
-        return view('dashboard', ['challenges' => $challenges]);
+        $user = auth()->user();
+        $challengeAll = Challenge::all();
+
+        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
+        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+
+        // Per challenge bepalen of completed
+        foreach ($challengeAll as $challenge) {
+            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+        }
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+
+        return view('dashboard', ['challenges' => $challenges, 'challenge' => $challengeAll, 'difficulties' => $difficulties]);
     }
 
     public function show(Challenge $challenge)
@@ -38,7 +64,10 @@ class ChallengeController extends Controller
     {
         $difficulties = Difficulty::all();
         $badges = Badge::all();
-        return view('admin.challenges.create', compact('difficulties', 'badges'));
+        if (\Auth::user()->is_admin === 1){
+        return view('admin.challenges.create', compact('difficulties', 'badges'));}
+        else {
+            return view('user.create', compact('difficulties', 'badges'));}
     }
 
     public function store(Request $request)
@@ -90,11 +119,56 @@ class ChallengeController extends Controller
         return redirect()->route('dashboard')->with('success', 'Challenge created with steps!');
     }
 
-    public function allChallenges()
+    public function allChallenges(Request $request)
     {
+        $search = $request->input('search');
+        $difficulties = Difficulty::all();
+        $user = auth()->user();
         $challenges = Challenge::all();
 
-        return view('challenges.all', compact('challenges'));
+        $challenges = Challenge::query()
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })
+            ->take(3)
+            ->get();
+
+//        $challenges = challenge::all();
+
+        $challenges = Challenge::with('difficulty')
+            ->filter(request(['search', 'difficulty']))
+            ->get();
+
+        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
+        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+
+        // Per challenge bepalen of completed
+        foreach ($challenges as $challenge) {
+            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+        }
+
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
+    }
+
+    public function userHasBadgeForChallenge($challenge)
+    {
+        $user = auth()->user();
+
+        if (!$user || !$challenge->badge_id) {
+            return false;
+        }
+
+        return $user->badges->contains('id', $challenge->badge_id);
+    }
+
+    public function showBadge($id)
+    {
+        $challenge = Challenge::findOrFail($id);
+
+        $hasBadge = $this->userHasBadgeForChallenge($challenge);
+
+        return view('challenges.show', 'dashboard', compact('challenge', 'hasBadge'));
     }
 
 }

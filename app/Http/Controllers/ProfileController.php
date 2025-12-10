@@ -2,59 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function show(Request $request)
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
-
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
 
-        Auth::logout();
+        // Tel alle badges van de gebruiker
+        $owned = $user->badges()->count();
 
-        $user->delete();
+        // -------------------------
+        // 1. BEPAAL DE RANK
+        // -------------------------
+        if ($owned >= 12) {
+            $user->rank = 3;
+            $user->rankname = 'Uil';
+        } elseif ($owned >= 8) {
+            $user->rank = 2;
+            $user->rankname = 'Vos';
+        } elseif ($owned >= 4) {
+            $user->rank = 1;
+            $user->rankname = 'Bloem';
+        } else {
+            $user->rank = 0;
+            $user->rankname = 'Bever';
+        }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Rank opslaan in de database
+        $user->save();
 
-        return Redirect::to('/');
+        // -------------------------
+        // 2. PROGRESSIE PER RANK
+        // -------------------------
+        if ($user->rank == 0) {
+            $rankStart = 0;
+            $rankEnd = 4;
+            $rankImage = '/images/badges/bever.png';
+            $rankName = 'bever';
+        } elseif ($user->rank == 1) {
+            $rankStart = 4;
+            $rankEnd = 8;
+            $rankImage = '/images/badges/bloem.png';
+            $rankName = 'Bloem';
+        } elseif ($user->rank == 2) {
+            $rankStart = 8;
+            $rankEnd = 12;
+            $rankImage = '/images/badges/vos.png';
+            $rankName = 'vos';
+        } else { // Rank 3 — hoogste rank
+            $rankStart = 12;
+            $rankEnd = 12; // geen hogere rank
+            $rankImage = '/images/badges/uil.png';
+            $rankName = 'uil';
+        }
+
+        // Progressie
+        if ($user->rank < 3) {
+            $progress = (($owned - $rankStart) / ($rankEnd - $rankStart)) * 100;
+            $required = $rankEnd - $owned; // hoeveel nog tot volgende rank
+        } else {
+            $progress = 100;
+            $required = null; // geen volgende rank
+        }
+
+        $progress = min(max($progress, 0), 100);
+
+        // -------------------------
+        // 3. LAAD BADGES
+        // -------------------------
+        $badges = $user->badges()->take(4)->get();
+
+        // -------------------------
+        // 4. RETURN DATA NAAR VIEW
+        // -------------------------
+        return view('profile.show', compact(
+            'user',
+            'badges',
+            'owned',
+            'progress',
+            'rankImage',
+            'rankName',
+            'required'
+        ));
     }
 }
