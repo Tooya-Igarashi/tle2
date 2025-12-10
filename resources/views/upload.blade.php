@@ -26,8 +26,6 @@
                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga
                     terug</a>
             </div>
-
-
         </div>
         <div>
             <form action="{{ route('upload.store', $challenge->id) }}" method="POST" enctype="multipart/form-data"

@@ -14,7 +14,7 @@
         <div class="bg-white">
             <div class="py-10">
                 <div class="max-w-6xl mx-auto px-6">
-                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                    <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
                         <div class="alert alert-info text-black p12 font-semibold">
                             {{ session('status') }}
                         </div>
@@ -30,6 +30,19 @@
                     <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
                         <div class="alert alert-info text-black p12 font-semibold">
                             <div class="alert alert-danger">{{ session('error') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    @if(session('denied'))
+        <div class="bg-white">
+            <div class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                        <div class="alert alert-info text-black p12 font-semibold">
+                            <div class="alert alert-danger">{{ session('denied') }}</div>
                         </div>
                     </div>
                 </div>
