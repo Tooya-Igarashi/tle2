@@ -10,46 +10,41 @@ use App\Models\Badge;
 
 class ChallengeController extends Controller
 {
-    public function index()
-    {
-        $difficulties = Difficulty::all();
-        $challenges = Challenge::with('difficulty')
-            ->filter(request(['search', 'difficulty']))
-            ->get();
-        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties]);
-    }
+//    public function index()
+//    {
+//        $difficulties = Difficulty::all();
+//        $challenges = Challenge::with('difficulty')
+//            ->filter(request(['search', 'difficulty']))
+//            ->get();
+//        return view('challenges.all', ['challenges' => $challenges, 'difficulties' => $difficulties]);
+//    }
 
 
     public function dashboard(Request $request)
     {
-        $search = $request->input('search');
-
         $difficulties = Difficulty::all();
+        $user = auth()->user();
 
-        $challenges = Challenge::query()
-            ->when($search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
-            })
+        // Query + filter + max 3
+        $challenges = Challenge::with('difficulty')
+            ->filter($request->only('search', 'difficulty'))
             ->take(3)
             ->get();
 
-        $user = auth()->user();
-        $challengeAll = Challenge::all();
-
-        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
+        // Badge-IDs ophalen
         $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
 
-        // Per challenge bepalen of completed
-        foreach ($challengeAll as $challenge) {
+        foreach ($challenges as $challenge) {
             $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
         }
-        $challenges = Challenge::with('difficulty')
-            ->filter(request(['search', 'difficulty']))
-            ->get();
 
-        return view('dashboard', ['challenges' => $challenges, 'challenge' => $challengeAll, 'difficulties' => $difficulties]);
+        return view('dashboard', [
+            'challenges' => $challenges,
+            'difficulties' => $difficulties,
+            'search' => $request->input('search'),
+        ]);
     }
+
 
     public function show(Challenge $challenge)
     {
@@ -64,11 +59,15 @@ class ChallengeController extends Controller
     {
         $difficulties = Difficulty::all();
         $badges = Badge::all();
-        if (\Auth::user()->is_admin === 1){
-        return view('admin.challenges.create', compact('difficulties', 'badges'));}
-        else {
-            return view('user.create', compact('difficulties', 'badges'));}
+        $user = auth()->user();
+        if (\Auth::user()->is_admin === 1) {
+            return view('admin.challenges.create', compact('difficulties', 'badges'));
+        } elseif ($user->rank != 3) {
+            return redirect()->route('dashboard')->with('status', ' Je bent nog geen Uil rank.');
+        }
+        return view('user.create', compact('difficulties', 'badges'));
     }
+
 
     public function store(Request $request)
     {
@@ -121,34 +120,25 @@ class ChallengeController extends Controller
 
     public function allChallenges(Request $request)
     {
-        $search = $request->input('search');
         $difficulties = Difficulty::all();
         $user = auth()->user();
-        $challenges = Challenge::all();
 
-        $challenges = Challenge::query()
-            ->when($search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
-            })
-            ->take(3)
-            ->get();
-
-//        $challenges = challenge::all();
-
+        // Zelfde filters, maar nu ALLE (geen take(3))
         $challenges = Challenge::with('difficulty')
-            ->filter(request(['search', 'difficulty']))
+            ->filter($request->only('search', 'difficulty'))
             ->get();
 
-        // Badge-IDs van gebruiker ophalen (of leeg als niet ingelogd)
         $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
 
-        // Per challenge bepalen of completed
         foreach ($challenges as $challenge) {
             $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
         }
 
-        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
+        return view('challenges.all', [
+            'challenges' => $challenges,
+            'difficulties' => $difficulties,
+            'search' => $request->input('search'),
+        ]);
     }
 
     public function userHasBadgeForChallenge($challenge)

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="bg-white">
+    <div class="bg-white pb-20">
         <div class="bg-blue-400 border rounded-2xl mt-0 shadow p-6 max-w-7xl mx-auto">
             {{-- Bovenste grid: profiel + badges + rank --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -14,6 +14,12 @@
                         <span class="font-semibold">Guides gedaan:</span>
                         {{ $owned }}
                     </p>
+                    @if($user->rank == 3)
+                        <a href="{{ route('user.create') }}"
+                           class="mt-2 inline-block px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-green-700">
+                            Maak je eigen guide
+                        </a>
+                    @endif
                 </div>
 
                 {{-- Badge + Rank sectie --}}
@@ -42,7 +48,8 @@
                             </div>
                         @endif
 
-                        <a href="{{ route('badges.library') }}" class="px-4 py-2 rounded-md text-center bg-yellow-500">
+                        <a href="{{ route('badges.library') }}"
+                           class="px-4 py-2 rounded-md text-center bg-yellow-500 hover:bg-green-700">
                             Alle badges
                         </a>
                     </div>
