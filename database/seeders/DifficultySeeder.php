@@ -9,10 +9,8 @@ class DifficultySeeder extends Seeder
 {
     public function run(): void
     {
-        Difficulty::factory()->count(0)->state(new \Illuminate\Database\Eloquent\Factories\Sequence(
-            ['difficulty' => 'Easy'],
-            ['difficulty' => 'Medium'],
-            ['difficulty' => 'Hard'],
-        ))->create();
+        Difficulty::create(['difficulty' => 'Easy']);
+        Difficulty::create(['difficulty' => 'Medium']);
+        Difficulty::create(['difficulty' => 'Hard']);
     }
 }

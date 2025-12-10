@@ -22,10 +22,10 @@ class BadgeController extends Controller
         // Badges die de gebruiker al heeft
         $BadgeUser = Badge::whereIn('id', $userBadgeIds)->get();
         $badges = Badge::whereNotIn('id', $userBadgeIds)->get();
-        $nogNietGehaald = $badges->count();
+        $notyetachieved = $badges->count();
         $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
-        $totalebadges = Badge::count();
-        return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalebadges', 'nogNietGehaald'));
+        $totalbadges = Badge::count();
+        return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalbadges', 'notyetachieved'));
     }
 
     public function store(Request $request)

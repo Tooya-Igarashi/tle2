@@ -12,9 +12,9 @@ class BadgeFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => "https://www.scoutinggroepdebevers.nl/wp-content/themes/scb-tailpress/img/scblogo256.png",
-            'name' => "Bever",
-            'description' => "Je hebt een hele mooie bever badge verdiend!",
+            'image' => null, // wordt overschreven in seeder
+            'name' => null,  // wordt overschreven in seeder
+            'description' => null, // wordt overschreven in seeder
         ];
     }
 }

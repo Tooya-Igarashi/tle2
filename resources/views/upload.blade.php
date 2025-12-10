@@ -1,7 +1,7 @@
 <x-app-layout>
     {{--    <x-header> upload jouw challenge</x-header>--}}
 
-    <div class=" bg-white flex flex-col md:flex-row gap-20 justify-center">
+    <div class=" bg-white flex flex-col md:flex-row gap-20 justify-center pb-20">
         <div class="bg-emerald-500 p-14 rounded-2xl ">
             <div class="pb-10">
                 <h1 class="text-2xl font-semibold mb-6">{{ $challenge->title }}</h1>
@@ -16,11 +16,11 @@
                      class="h-20 rounded-lg  object-cover">
 
 
-                    <div>
-                        <p class="text-2xl font-bold">{{$challenge->badge->name}}</p>
-                        <p>{{$challenge->badge->description}}</p>
-                    </div>
-               </div>
+                <div>
+                    <p class="text-2xl font-bold">{{$challenge->badge->name}}</p>
+                    <p>{{$challenge->badge->description}}</p>
+                </div>
+            </div>
             <div class="pt-3">
                 <a href="{{ route('dashboard') }}"
                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">Ga
@@ -30,11 +30,9 @@
 
         </div>
         <div>
-            <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('upload.store', $challenge->id) }}" method="POST" enctype="multipart/form-data"
                   class="space-y-6 bg-white p-6 rounded-xl shadow">
                 @csrf
-
-                <input type="hidden" name="challenge_id" value="{{ $challenge->id }}">
 
                 {{--                    <img src="https://static.vecteezy.com/system/resources/previews/016/017/372/large_2x/image-upload-free-png.png"  class="h-80 rounded-md border object-cover">--}}
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-1"> <img
