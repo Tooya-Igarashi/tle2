@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-bold text-black">Create Challenge</h2>
-    </x-slot>
     <div class="max-w-4xl mx-auto p-6">
 
         @if(session('success'))
@@ -20,12 +17,12 @@
             </div>
         @endif
 
+
         <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
-
             {{-- TITLE --}}
             <div>
-                <label class="font-semibold text-white">Titel</label>
+                <label class="font-semibold text-black">Titel</label>
                 <input name="title" value="{{ old('title') }}"
                        class="w-full border border-gray-300 rounded p-2 text-black" required>
                 @error('title')
@@ -133,7 +130,8 @@
                                         Remove
                                     </button>
                                 </div>
-                                <textarea name="steps[]" class="w-full border border-gray-300 rounded p-2 text-black"
+                                <textarea name="steps[]"
+                                          class="w-full border border-gray-300 rounded p-2 text-black"
                                           rows="3" required>{{ $step }}</textarea>
                             </div>
                         @endforeach
