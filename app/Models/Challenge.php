@@ -23,7 +23,6 @@ class Challenge extends Model
 
     public function scopeFilter($query, array $filters)
     {
-
         $query->when($filters['search'] ?? null, function ($q, $search) {
             $q->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -34,8 +33,10 @@ class Challenge extends Model
         $query->when($filters['difficulty'] ?? null, function ($q, $difficultyId) {
             $q->where('difficulty_id', $difficultyId);
         });
+
         return $query;
     }
+
 
     public function author()
     {

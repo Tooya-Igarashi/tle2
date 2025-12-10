@@ -45,4 +45,4 @@ Route::post('/admin/submissions/{id}/decline', [\App\Http\Controllers\AdminSubmi
 Route::post('/admin/submissions/{id}/edit', [\App\Http\Controllers\AdminSubmissionController::class, 'edit'])->name('submission.edit');
 Route::delete('/admin/submissions/{id}/delete', [\App\Http\Controllers\AdminSubmissionController::class, 'delete'])->name('submission.delete');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
