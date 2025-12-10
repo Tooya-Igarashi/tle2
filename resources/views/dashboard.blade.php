@@ -7,7 +7,35 @@
                 Welkom!
             @endauth
         </h2>
+
     </x-slot>
+
+    @if(session('status'))
+        <div class="bg-white">
+            <div class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                        <div class="alert alert-info text-black p12 font-semibold">
+                            {{ session('status') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="bg-white">
+            <div class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                        <div class="alert alert-info text-black p12 font-semibold">
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="bg-white">
 
@@ -17,8 +45,11 @@
                 <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
                     <h1 class="font-bold text-2xl mb-3">Help jij de natuur?</h1>
                     <p class="leading-relaxed">
-                        Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten we zien
-                        hoe jij met kleine acties een groot verschil kunt maken. Of je nu afval opruimt, bloemen zaait
+                        Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten
+                        we zien
+                        hoe jij met kleine acties een groot verschil kunt maken. Of je nu afval opruimt,
+                        bloemen
+                        zaait
                         of meedoet aan een leuke natuuractie: iedereen kan een natuurbeschermer zijn!
                     </p>
                 </div>
@@ -95,7 +126,8 @@
                             <div class="flex items-center gap-1 mt-2">
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
-                                    <span class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
+                                    <span
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
             ★
         </span>
                                 @endfor

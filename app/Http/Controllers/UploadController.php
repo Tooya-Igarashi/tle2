@@ -49,21 +49,36 @@ class UploadController extends Controller
             'content' => ['required', 'image', 'max:2048'],
         ]);
 
+        // Check of user al heeft ingediend voor deze challenge
+        $alreadySubmitted = Submitted::where('user_id', auth()->id())
+            ->where('challenge_id', $challenge->id)
+            ->exists();
+
+        if ($alreadySubmitted) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Je hebt deze challenge al ingestuurd.');
+        }
+
+        // Bestand opslaan
         $file = $request->file('content');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path('challenge_submits'), $filename);
 
+        // Opslaan in database
         $submitted = Submitted::create([
             'content' => 'challenge_submits/' . $filename,
             'user_id' => auth()->id(),
             'challenge_id' => $challenge->id,
             'token' => Str::random(40),
+            'date' => now(),
             'pending' => false,
         ]);
 
+        // Mail sturen
         Mail::to('jordi1030@outlook.com')->send(new SubmittedMail($submitted));
 
-        return view('upload.index');
+        return redirect()->route('dashboard')
+            ->with('status', 'Je inzending is succesvol verstuurd!');
     }
 
 
