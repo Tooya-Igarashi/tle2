@@ -16,7 +16,7 @@ class ChallengeController extends Controller
         $challenges = Challenge::with('difficulty')
             ->filter(request(['search', 'difficulty']))
             ->get();
-        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties]);
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties' => $difficulties]);
     }
 
 
@@ -64,11 +64,15 @@ class ChallengeController extends Controller
     {
         $difficulties = Difficulty::all();
         $badges = Badge::all();
-        if (\Auth::user()->is_admin === 1){
-        return view('admin.challenges.create', compact('difficulties', 'badges'));}
-        else {
-            return view('user.create', compact('difficulties', 'badges'));}
+        $user = auth()->user();
+        if (\Auth::user()->is_admin === 1) {
+            return view('admin.challenges.create', compact('difficulties', 'badges'));
+        } elseif ($user->rank != 3) {
+            return redirect()->route('dashboard')->with('status', ' Je bent nog geen Uil rank.');
+        }
+        return view('user.create', compact('difficulties', 'badges'));
     }
+
 
     public function store(Request $request)
     {
@@ -148,7 +152,7 @@ class ChallengeController extends Controller
             $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
         }
 
-        return view('challenges.all', ['challenges' => $challenges, 'difficulties'=> $difficulties, 'search' => $search,]);
+        return view('challenges.all', ['challenges' => $challenges, 'difficulties' => $difficulties, 'search' => $search,]);
     }
 
     public function userHasBadgeForChallenge($challenge)

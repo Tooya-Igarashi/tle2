@@ -10,7 +10,7 @@
 
         <!-- Eerste container: Jouw badges -->
         <h2 class="text-2xl font-bold mt-2 mb-0 text-black">Jouw badges ({{ $earnedBadgesCount}}
-            van {{ $totalebadges }})
+            van {{ $totalbadges }})
         </h2>
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
             <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
@@ -29,7 +29,7 @@
 
         <!-- Tweede container: Nog te behalen badges -->
         <h2 class="text-2xl font-bold mt-2 mb-0 text-black">
-            Nog te behalen badges ({{ $nogNietGehaald }} van {{ $totalebadges }})</h2>
+            Nog te behalen badges ({{ $notyetachieved }} van {{ $totalbadges }})</h2>
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
             <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
                 @foreach($badges as $badge)

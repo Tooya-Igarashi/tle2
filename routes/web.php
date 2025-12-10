@@ -28,7 +28,6 @@ Route::get('/user/create', [ChallengeController::class, 'create'])->name('user.c
 Route::post('/user/create', [ChallengeController::class, 'store'])->name('user.store');
 Route::get('/submit', [UploadController::class, 'index']);
 Route::get('/upload/{challenge}', [UploadController::class, 'show']);
-
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');
     Route::post('/admin/challenges', [ChallengeController::class, 'store'])->name('challenges.store');
@@ -45,4 +44,4 @@ Route::post('/admin/submissions/{id}/decline', [\App\Http\Controllers\AdminSubmi
 Route::post('/admin/submissions/{id}/edit', [\App\Http\Controllers\AdminSubmissionController::class, 'edit'])->name('submission.edit');
 Route::delete('/admin/submissions/{id}/delete', [\App\Http\Controllers\AdminSubmissionController::class, 'delete'])->name('submission.delete');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

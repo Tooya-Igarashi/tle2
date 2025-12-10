@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
+use App\Models\Difficulty;
 use Illuminate\Http\Request;
 use App\Models\User;
 

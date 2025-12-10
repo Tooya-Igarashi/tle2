@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             @auth
@@ -8,7 +9,19 @@
             @endauth
         </h2>
     </x-slot>
-
+    @if(session('status'))
+        <div class="bg-white">
+            <div class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
+                        <div class="alert alert-info text-black p12 font-semibold">
+                            {{ session('status') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="bg-white">
 
         {{-- Intro --}}
@@ -28,10 +41,12 @@
         {{-- Filter + Zoekbalk --}}
         <div class="max-w-6xl mx-auto px-6 mb-6 flex justify-between items-center">
             <form method="GET" action="{{ route('dashboard') }}" class="mb-6 flex gap-4">
-                <select name="difficulty" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
+                <select name="difficulty"
+                        class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
                     <option value="">All</option>
                     @foreach($difficulties as $difficulty)
-                        <option value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
+                        <option
+                            value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
                             {{ $difficulty->difficulty }}
                         </option>
                     @endforeach
@@ -63,10 +78,10 @@
             </form>
         </div>
 
-{{--        <div class="max-w-7xl mx-auto flex-row px-4 py-10">--}}
+        {{--        <div class="max-w-7xl mx-auto flex-row px-4 py-10">--}}
 
 
-{{--        </div>--}}
+        {{--        </div>--}}
 
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
