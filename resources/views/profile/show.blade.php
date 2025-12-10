@@ -12,7 +12,7 @@
 
                     <p class="mt-1 text-sm">
                         <span class="font-semibold">Guides gedaan:</span>
-                        {{ $earnedBadgesCount }}
+                        {{ $owned }}
                     </p>
                 </div>
 
@@ -50,27 +50,6 @@
                     {{-- Rank kolom --}}
                     <div class="flex flex-col items-center gap-0 w-1/2 flex-shrink-0 ml-40">
                         {{-- Rank afbeelding en naam --}}
-                        @php
-                            if($earnedBadgesCount >= 12) {
-                                $rankImage = '/images/badges/uil.png';
-                                $rankName = 'Expert';
-                                $rankProgress = 100;
-                            } elseif($earnedBadgesCount >= 8) {
-                                $rankImage = '/images/badges/vos.png';
-                                $rankName = 'Gevorderd';
-                                $rankProgress = (($earnedBadgesCount - 8) / 4) * 100;
-                            } elseif($earnedBadgesCount >= 4) {
-                                $rankImage = '/images/badges/bloem.png';
-                                $rankName = 'Beginner';
-                                $rankProgress = (($earnedBadgesCount - 4) / 4) * 100;
-                            } else {
-                                $rankImage = '/images/bever.png';
-                                $rankName = 'Nog geen rank';
-                                $rankProgress = ($earnedBadgesCount / 4) * 100;
-                            }
-                            $rankProgress = min($rankProgress, 100);
-                        @endphp
-
                         <h3 class="text-3xl font-semibold mb-3">Rang: {{ $rankName }}</h3>
 
                         <div class="w-80 h-80 rounded-full overflow-hidden flex items-center justify-center">
@@ -80,9 +59,10 @@
                         {{-- Progressiebalk --}}
                         <div class="mt-4 w-full">
                             <div class="h-4 w-full rounded-full border border-black overflow-hidden">
-                                <div class="h-full bg-blue-500" style="width: {{ $rankProgress }}%;"></div>
+                                <div class="h-full bg-green-800" style="width: {{ $progress }}%;"></div>
                             </div>
-                            <p class="text-center text-sm mt-1">{{ round($rankProgress) }}%</p>
+                            <p class="text-center text-sm mt-1">{{ $owned }} / {{ $owned + $required }} badges
+                                ({{ $required ??0 }} te gaan voor volgende rank)</p>
                         </div>
                     </div>
 

@@ -12,38 +12,80 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // Tel alle badges van de gebruiker
-        $earnedBadgesCount = $user->badges()->count();
+        $owned = $user->badges()->count();
 
-        // Bepaal rank automatisch
-        if ($earnedBadgesCount >= 12) {
+        // -------------------------
+        // 1. BEPAAL DE RANK
+        // -------------------------
+        if ($owned >= 12) {
             $user->rank = 3;
-        } elseif ($earnedBadgesCount >= 8) {
+            $user->rankname = 'Uil';
+        } elseif ($owned >= 8) {
             $user->rank = 2;
-        } elseif ($earnedBadgesCount >= 4) {
+            $user->rankname = 'Vos';
+        } elseif ($owned >= 4) {
             $user->rank = 1;
+            $user->rankname = 'Bloem';
         } else {
-            $user->rank = 0; // nog geen rank
+            $user->rank = 0;
+            $user->rankname = 'Bever';
         }
 
-        // Sla de rank op in de database
+        // Rank opslaan in de database
         $user->save();
 
-        // Haal de badges op
-        $badges = $user->badges()->take(4)->get();
-
-        // Bereken progressie per rank
+        // -------------------------
+        // 2. PROGRESSIE PER RANK
+        // -------------------------
         if ($user->rank == 0) {
-            $progress = ($earnedBadgesCount / 4) * 100;
+            $rankStart = 0;
+            $rankEnd = 4;
+            $rankImage = '/images/badges/bever.png';
+            $rankName = 'bever';
         } elseif ($user->rank == 1) {
-            $progress = (($earnedBadgesCount - 4) / 4) * 100;
+            $rankStart = 4;
+            $rankEnd = 8;
+            $rankImage = '/images/badges/bloem.png';
+            $rankName = 'Bloem';
         } elseif ($user->rank == 2) {
-            $progress = (($earnedBadgesCount - 8) / 4) * 100;
-        } else { // rank 3
-            $progress = 100; // hoogste rank
+            $rankStart = 8;
+            $rankEnd = 12;
+            $rankImage = '/images/badges/vos.png';
+            $rankName = 'vos';
+        } else { // Rank 3 — hoogste rank
+            $rankStart = 12;
+            $rankEnd = 12; // geen hogere rank
+            $rankImage = '/images/badges/uil.png';
+            $rankName = 'uil';
         }
 
-        $progress = min($progress, 100);
+        // Progressie
+        if ($user->rank < 3) {
+            $progress = (($owned - $rankStart) / ($rankEnd - $rankStart)) * 100;
+            $required = $rankEnd - $owned; // hoeveel nog tot volgende rank
+        } else {
+            $progress = 100;
+            $required = null; // geen volgende rank
+        }
 
-        return view('profile.show', compact('user', 'badges', 'earnedBadgesCount', 'progress'));
+        $progress = min(max($progress, 0), 100);
+
+        // -------------------------
+        // 3. LAAD BADGES
+        // -------------------------
+        $badges = $user->badges()->take(4)->get();
+
+        // -------------------------
+        // 4. RETURN DATA NAAR VIEW
+        // -------------------------
+        return view('profile.show', compact(
+            'user',
+            'badges',
+            'owned',
+            'progress',
+            'rankImage',
+            'rankName',
+            'required'
+        ));
     }
 }
