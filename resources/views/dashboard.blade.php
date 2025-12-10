@@ -68,6 +68,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
