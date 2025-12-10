@@ -8,7 +8,7 @@
             @endauth
         </h2>
     </x-slot>
-    <div class="bg-white">
+    <div class="bg-white pb-20">
         {{--        Bever logo--}}
         <div class="py-10">
             <div class="max-w-6xl mx-auto px-6 flex justify-center">

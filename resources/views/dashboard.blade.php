@@ -9,7 +9,7 @@
         </h2>
     </x-slot>
 
-    <div class="bg-white">
+    <div class="bg-white pb-20">
 
         {{-- Intro --}}
         <div class="py-10">
