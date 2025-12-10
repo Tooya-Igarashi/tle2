@@ -25,46 +25,6 @@
             </div>
         </div>
 
-        {{-- Filter + Zoekbalk --}}
-        <div class="max-w-6xl mx-auto px-6 mb-6 flex justify-between items-center">
-            <form method="GET" action="{{ route('dashboard') }}" class="mb-6 flex gap-4">
-                @csrf
-                <select name="difficulty"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
-                    <option value="">All</option>
-                    @foreach($difficulties as $difficulty)
-                        <option
-                            value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
-                            {{ $difficulty->difficulty }}
-                        </option>
-                    @endforeach
-                </select>
-
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">
-                    Filter
-                </button>
-
-                <a href="{{ route('dashboard') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
-                    Reset
-                </a>
-           
-                <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    value="{{ request('search') }}"
-                    placeholder="Zoek een challenge..."
-                    class="w-full border border-gray-300 rounded-xl px-4 py-2 shadow-sm focus:ring-green-600 focus:border-green-600"
-                >
-                <button
-                    type="submit"
-                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition"
-                >
-                    Zoeken
-                </button>
-            </form>
-        </div>
-
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-xl font-bold mb-4 text-gray-800">Challenges</h2>
