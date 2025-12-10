@@ -27,8 +27,7 @@ class DatabaseSeeder extends Seeder
             DifficultySeeder::class,
             BadgeSeeder::class,
             // create users + challenges + related pivots and steps
-            ChallengeSeeder::class,
-//            SubmittedSeeder::class,
+//            ChallengeSeeder::class,
         ]);
     }
 }
