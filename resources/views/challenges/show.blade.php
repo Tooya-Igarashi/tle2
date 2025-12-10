@@ -6,11 +6,15 @@
 
                 <div class="flex flex-col md:flex-row gap-6">
 
-                    <div class="flex-shrink-0 md:w-1/3">
-                        <img src="{{ asset($challenge->image_path) }}"
-                             alt="Challenge Image"
-                             class="rounded-xl shadow-md w-full h-auto">
-                    </div>
+{{--                    <div class="flex-shrink-0 md:w-1/3">--}}
+{{--                        <img src="{{ asset($challenge->image_path) }}"--}}
+{{--                             alt="Challenge Image"--}}
+{{--                             class="rounded-xl shadow-md w-full h-auto">--}}
+{{--                    </div>--}}
+
+                    <img src="{{ asset('storage/' . $challenge->image_path) }}"
+                         alt="Challenge Image"
+                         class="rounded-xl shadow-md w-full h-auto">
 
                     <div class="flex-1">
 
