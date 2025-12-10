@@ -7,8 +7,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.10",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "mailgun/mailgun-php": "^4.3",
+        "openai-php/client": "^0.18.0",
+        "openai-php/laravel": "^0.18.0",
+        "symfony/http-client": "^7.4",
+        "symfony/mailgun-mailer": "^7.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
