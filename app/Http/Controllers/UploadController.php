@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Submitted;
 use App\Mail\SubmittedMail;
+use App\Models\BadgeUser;
 use Illuminate\Support\Facades\Mail;
 
 class UploadController extends Controller
@@ -102,34 +103,60 @@ class UploadController extends Controller
     public function approve($id, $token)
     {
         $submitted = Submitted::findOrFail($id);
+
         if ($submitted->pending === true) {
             return view('dashboard', ['message' => 'Inzending is al beoordeeld.']);
         }
 
         if ($submitted->token !== $token) {
-            abort(403, 'Invalid token');
+            return redirect()->route('dashboard');
         }
 
-        $submitted->pending = true; // ✔ accepted
-        $submitted->token = null;   // token ongeldig maken
-        $submitted->save();
 
-        return view('submission_result', ['message' => 'Inzending geaccepteerd!']);
+        $submitted->pending = true;
+        $submitted->token = null;
+        $submitted->save();
+        $challenge = Challenge::find($submitted->challenge_id);
+
+        if ($challenge && $challenge->badge_id) {
+
+            // Check of gebruiker deze badge al eerder heeft gekregen
+            $alreadyHasBadge = BadgeUser::where('user_id', $submitted->user_id)
+                ->where('id_badge', $challenge->badge_id)
+                ->exists();
+
+            if (!$alreadyHasBadge) {
+                BadgeUser::create([
+                    'id_badge' => $challenge->badge_id,
+                    'user_id' => $submitted->user_id,
+                    'acquire' => now(),
+                ]);
+            }
+        }
+
+        return view('dashboard', [
+            'message' => 'Inzending geaccepteerd! Badge toegekend!'
+        ]);
+
     }
+
 
     public function reject($id, $token)
     {
         $submitted = Submitted::findOrFail($id);
 
         if ($submitted->token !== $token) {
-            abort(403, 'Invalid token');
+            return redirect()->route('dashboard')
+                ->with('error', 'Ongeldige token, actie afgebroken.');
         }
 
-        $submitted->pending = false; // ❌ rejected
+        // Markeer als afgewezen
+        $submitted->pending = false;
         $submitted->token = null;
         $submitted->save();
 
-        return view('submission_result', ['message' => 'Inzending afgewezen.']);
+        return redirect()->route('dashboard')
+            ->with('status', 'De inzending is afgewezen.');
     }
 
 
