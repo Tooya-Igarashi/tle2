@@ -52,16 +52,11 @@ class UploadController extends Controller
         $photo->pending = false;
         $photo->save();
 
-        $user = auth()->user();
+        // Badge geven aan user
+        $challenge = Challenge::find($request->challenge_id);
 
-
-        $challenge = Challenge::findOrFail($request->input('challenge_id'));
-
-
-        if ($challenge->badge_id && !$user->badges->contains('id', $challenge->badge_id)) {
-            $user->badges()->attach($challenge->badge_id, [
-                'acquire' => now(),
-            ]);
+        if ($challenge && $challenge->badge) {
+            auth()->user()->badges()->syncWithoutDetaching([$challenge->badge->id]);
         }
 
         return redirect()->route('dashboard')->with('success', 'Je bestand is succesvol geüpload!');
