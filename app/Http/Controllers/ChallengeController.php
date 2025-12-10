@@ -97,7 +97,7 @@ class ChallengeController extends Controller
         $challenge->published = $validated['published'] ?? false;
         $challenge->duration = $validated['duration'];
         $challenge->user_id = auth()->id();
-        $challenge->image_path = $path;
+        $challenge->image_path = 'storage/' . $path;
         $challenge->save();
         $challenge->joinedUsers()->attach(auth()->id());
 
