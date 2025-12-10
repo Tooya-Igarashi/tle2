@@ -18,7 +18,9 @@ class Challenge extends Model
         'published',
         'duration',
         'image',
-        'image_path'
+        'image_path',
+        'step_number',
+        'step_description'
     ];
 
     public function author()

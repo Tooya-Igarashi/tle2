@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadController;
@@ -34,6 +35,10 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::post('/admin/challenges', [ChallengeController::class, 'store'])->name('challenges.store');
     Route::post('/admin/badges', [BadgeController::class, 'store'])->name('badges.store');
     Route::get('/admin/badges', [BadgeController::class, 'create'])->name('badges.create');
+    Route::get('/admin', [AdminController::class, 'admin'])->name('admin.dashboard');
+    Route::patch('/admin/{challenge}/authenticate', [AdminController::class, 'authenticate'])->name('admin.authenticate');
+    Route::get('admin/{challenge}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::patch('admin/{challenge}/update', [AdminController::class, 'update'])->name('admin.update');
 });
 
 
