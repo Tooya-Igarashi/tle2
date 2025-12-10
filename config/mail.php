@@ -46,7 +46,7 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string)env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
         'ses' => [
@@ -78,6 +78,18 @@ return [
         'array' => [
             'transport' => 'array',
         ],
+
+        'mailgun' => [
+            'transport' => 'mailgun',
+            'from' => [
+                'address' => env('MAIL_FROM_ADDRESS', 'yo@example.com'),
+                'name' => env('MAIL_FROM_NAME', 'Big man'),
+            ],
+            'domain' => env('MAILGUN_DOMAIN'),
+            'secret' => env('MAILGUN_SECRET'),
+            'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        ],
+
 
         'failover' => [
             'transport' => 'failover',
