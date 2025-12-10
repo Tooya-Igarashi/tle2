@@ -72,9 +72,12 @@
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
                             {{--@dd($challenge->completed)--}}
                             {{-- Afbeelding --}}
-                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"
-                                 class="w-full h-40 object-cover rounded-xl">
+{{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"--}}
+{{--                                 class="w-full h-40 object-cover rounded-xl">--}}
 
+                            <img src="{{ asset('storage/' . $challenge->image_path) }}"
+                                 alt="Challenge Image"
+                                 class="w-full h-40 object-cover rounded-xl">
                             {{-- Titel --}}
                             <h3 class="text-lg font-bold text-black">
                                 {{ $challenge->title }}

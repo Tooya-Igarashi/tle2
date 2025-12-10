@@ -82,7 +82,9 @@
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
 
 
-                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">
+{{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">--}}
+                            <img src="{{ asset('storage/' . $challenge->image_path) }}"
+                                 alt="Challenge Image">
 
                             <h3 class="text-lg font-bold text-black">
                                 {{ $challenge->title }}
