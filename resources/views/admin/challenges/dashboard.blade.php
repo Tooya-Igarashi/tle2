@@ -1,21 +1,10 @@
-        <!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<main>
+<x-app-layout>
     <table class="mx-auto">
         <thead>
         <tr>
             <th class="px-4 py-2">ID</th>
             <th class="px-4 py-2">Name</th>
             <th class="px-4 py-2">Description</th>
-            <th class="px-4 py-2">Time</th>
-            <th class="px-4 py-2">Difficulty</th>
-            <th class="px-4 py-2">Badge</th>
             <th class="px-4 py-2">Created At</th>
             <th class="px-4 py-2">Updated At</th>
             <th class="px-4 py-2">Details</th>
@@ -29,9 +18,6 @@
                 <td class="px-4 py-2">{{ $challenges->id }}</td>
                 <td class="px-4 py-2">{{ $challenges->title }}</td>
                 <td class="px-4 py-2">{{ Str::limit($challenges->description, 50) }}</td>
-                <td class="px-4 py-2">{{ $challenges->duration }}</td>
-                <td class="px-4 py-2">{{ optional($challenges->difficulty)->difficulty }}</td>
-                <td class="px-4 py-2">{{ $challenges->badge_id }}</td>
                 <td class="px-4 py-2">{{ $challenges->created_at->format('D-M-Y') }}</td>
                 <td class="px-4 py-2">{{ $challenges->updated_at->format('D-M-Y') }}</td>
                 <td class="px-4 py-2">
@@ -76,6 +62,4 @@
         @endforeach
         </tbody>
     </table>
-</main>
-</body>
-</html>
+</x-app-layout>
