@@ -23,13 +23,48 @@
                         </h1>
 
                         <div class="flex items-center mb-3">
+{{--                            @php--}}
+{{--                                $stars = $difficulty === 'Easy' ? -3 : ($difficulty === 'Medium' ? -2  : -1);--}}
+{{--                            @endphp--}}
+
+{{--                            @for($i = 3; $i <= 3; $i++)--}}
+{{--                                <span class="text-xl text-yellow-400 {{ $i <= $stars }}">★</span>--}}
+{{--                            @endfor--}}
+
+                            {{-- Sterretjes --}}
                             @php
-                                $stars = $difficulty === 'Easy' ? -3 : ($difficulty === 'Medium' ? -2  : -1);
+                                // Moeilijkheidsgraad ID ophalen (1, 2 of 3)
+                                $diffId = optional($challenge->difficulty)->id ?? 0;
+
+                                // Mapping van Moeilijkheidsgraad systeem:
+                                $starMap = [
+                                    1 => 1,
+                                    2 => 2,
+                                    3 => 3,
+                                ];
+
+                                // Hoeveel sterren moet het tonen
+                                $stars = $starMap[$diffId] ?? 0;
+
+                                // Labels voor tekst
+                                $labels = [
+                                    1 => 'Easy',
+                                    2 => 'Medium',
+                                    3 => 'Hard',
+                                ];
+
+                                $difficultyLabel = $labels[$diffId] ?? 'Onbekend';
                             @endphp
 
-                            @for($i = 3; $i <= 3; $i++)
-                                <span class="text-xl text-yellow-400 {{ $i <= $stars }}">★</span>
-                            @endfor
+                            <div class="flex items-center gap-1 mt-2">
+                                {{-- Sterren tekenen --}}
+                                @for ($i = 1; $i <= 3; $i++)
+                                    <span
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
+                                        ★
+                                    </span>
+                                @endfor
+                            </div>
                         </div>
 
                         <p class="text-gray-700 leading-relaxed">
@@ -80,7 +115,7 @@
 
                     @if($hasBadge)
                         <div class="flex items-center gap-4">
-                            <img src="{{ asset('storage/' . $challenge->badge->image) }}" class="w-20 h-20 ">
+                            <img src="{{ asset($challenge->badge->image) }}" class="w-20 h-20 ">
                             <div>
                                 <p class="font-semibold">Je hebt deze badge al verdiend!</p>
                                 <p>{{ $challenge->badge->name }}</p>

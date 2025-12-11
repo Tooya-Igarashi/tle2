@@ -35,7 +35,7 @@
                 </div>
                 <!-- Badge afbeelding -->
                 <div class="relative w-48 h-48 rounded-full overflow-hidden flex-shrink-0">
-                    <img src="{{ $badge->image }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
+                    <img src="{{ asset($badge->image) }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
                     @if (!$owned)
                         <div class="absolute inset-0 bg-black opacity-70 rounded-full"></div>
                     @endif
