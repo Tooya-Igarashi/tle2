@@ -79,13 +79,13 @@ class ChallengeController extends Controller
             'published' => 'boolean',
             'duration' => 'required|date_format:H:i',
             'steps.*' => 'nullable|string|max:50',
-            'image_path' => 'image|max:2048',
+            'image' => 'image|max:2048',
         ]);
 
         $path = null;
 
-        if ($request->hasFile('image_path')) {
-            $path = $request->file('image_path')->store('challenge_images', 'public');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('challenge_images', 'public');
         }
 
 // 1. Challenge aanmaken

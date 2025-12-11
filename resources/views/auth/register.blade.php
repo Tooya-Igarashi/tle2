@@ -2,6 +2,9 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <!--Register-->
+            <h1 class="text-4xl text-black p-3 mb-2 text-center">Register</h1>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -39,14 +42,21 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
+        <div class="flex items-center justify-center flex-col mt-4">
+{{--            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">--}}
+{{--                {{ __('Already registered?') }}--}}
+{{--            </a>--}}
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>
+            <h2 class="text-sm text-gray-400 mt-3">Heb je al een account?
+                <a class="underline text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+                    {{ __('Log in') }}
+                </a>
+            </h2>
+        </div>
+        <div>
+
         </div>
     </form>
 

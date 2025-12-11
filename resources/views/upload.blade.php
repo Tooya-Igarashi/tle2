@@ -5,9 +5,28 @@
         <div class="bg-emerald-500 p-14 rounded-2xl ">
             <div class="pb-10">
                 <h1 class="text-2xl font-semibold mb-6">{{ $challenge->title }}</h1>
-                <p> {{$challenge->difficulty->difficulty}}</p>
+                <p>
+                @php
+                    $difficulty = $challenge->difficulty->difficulty ?? 'Onbekend';
+
+                    $stars = match($difficulty) {
+                        'Easy' => 1,
+                        'Medium' => 2,
+                        'Hard' => 3,
+                        default => 0
+                    };
+                @endphp
+
+                <div class="flex">
+                    @for($i = 1; $i <= 3; $i++)
+                        <span class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">★</span>
+                    @endfor
+                </div>
+
+                </p>
+
                 <p>{{ $challenge->description }}</p>
-                <p>{{$challenge->duration}} minuten</p>
+                <p>{{$challenge->duration}}</p>
 
             </div>
 
