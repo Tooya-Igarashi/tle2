@@ -22,6 +22,7 @@
 
         {{-- Filter + Zoekbalk --}}
         <div class="max-w-6xl mx-auto px-6 mb-6 flex justify-between items-center">
+            <div class="flex items-center">
             <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
                 @csrf
                 <select name="difficulty"
@@ -42,7 +43,8 @@
                 <a href="{{ route('challenges.all') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
                     Reset
                 </a>
-
+            </div>
+                <div class="flex items-center gap-4">
                 <input
                     type="text"
                     name="search"
@@ -57,6 +59,7 @@
                 >
                     Zoeken
                 </button>
+                </div>
             </form>
         </div>
 
