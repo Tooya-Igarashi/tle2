@@ -29,7 +29,6 @@
                         <a href="{{ route('badges.show', $previousBadge->id) }}"
                            class="flex items-center gap-2 text-gray-950 hover:text-gray-700">
                             <span class="text-7xl font-bold">&#8249;</span>
-                            <span class="text-lg font-normal">Vorige Badge</span>
                         </a>
                     @endif
                 </div>
@@ -45,7 +44,6 @@
                     @if($nextBadge)
                         <a href="{{ route('badges.show', $nextBadge->id) }}"
                            class="flex items-center gap-2 text-gray-950 hover:text-gray-700">
-                            <span class="text-lg font-normal">Volgende Badge</span>
                             <span class="text-7xl font-bold">&#8250;</span>
                         </a>
                     @endif
