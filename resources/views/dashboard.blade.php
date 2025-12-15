@@ -10,79 +10,105 @@
     </x-slot>
 
     <div class="bg-white pb-20">
-    @if(session('status'))
+        @if(session('status'))
+            <div class="bg-white">
+                <div class="py-10">
+                    <div class="max-w-6xl mx-auto px-6">
+                        <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
+                            <div class="alert alert-info text-black p12 font-semibold">
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="bg-white">
+                <div class="py-10">
+                    <div class="max-w-6xl mx-auto px-6">
+                        <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                            <div class="alert alert-info text-black p12 font-semibold">
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if(session('denied'))
+            <div class="bg-white">
+                <div class="py-10">
+                    <div class="max-w-6xl mx-auto px-6">
+                        <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
+                            <div class="alert alert-info text-black p12 font-semibold">
+                                <div class="alert alert-danger">{{ session('denied') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session('status'))
+                setTimeout(() => {
+                    const duration = 5 * 1000; // 5 seconden
+                    const animationEnd = Date.now() + duration;
+                    const defaults = {
+                        startVelocity: 40,
+                        spread: 360,
+                        ticks: 80,
+                        zIndex: 9999
+                    };
+                    const interval = setInterval(function () {
+                        const timeLeft = animationEnd - Date.now();
+                        if (timeLeft <= 0) return clearInterval(interval);
+                        // Meer particles
+                        const particleCount = 250 * (timeLeft / duration);
+                        confetti(Object.assign({}, defaults, {
+                            particleCount,
+                            origin: {x: Math.random(), y: Math.random() - 0.2},
+                            colors: ['#fbbf24', '#f59e0b', '#84cc16', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'] // veel kleuren
+                        }));
+                    }, 200); // elke 200ms een burst
+                }, 300);
+                @endif
+            });
+        </script>
         <div class="bg-white">
+
+            {{-- Intro --}}
             <div class="py-10">
                 <div class="max-w-6xl mx-auto px-6">
                     <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
-                        <div class="alert alert-info text-black p12 font-semibold">
-                            {{ session('status') }}
-                        </div>
+                        <h1 class="font-bold text-2xl mb-3">Help jij de natuur?</h1>
+                        <p class="leading-relaxed">
+                            Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten
+                            we zien
+                            hoe jij met kleine acties een groot verschil kunt maken. Of je nu afval opruimt,
+                            bloemen
+                            zaait
+                            of meedoet aan een leuke natuuractie: iedereen kan een natuurbeschermer zijn!
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    @endif
-    @if(session('error'))
-        <div class="bg-white">
-            <div class="py-10">
-                <div class="max-w-6xl mx-auto px-6">
-                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
-                        <div class="alert alert-info text-black p12 font-semibold">
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-    @if(session('denied'))
-        <div class="bg-white">
-            <div class="py-10">
-                <div class="max-w-6xl mx-auto px-6">
-                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
-                        <div class="alert alert-info text-black p12 font-semibold">
-                            <div class="alert alert-danger">{{ session('denied') }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <div class="bg-white">
-
-        {{-- Intro --}}
-        <div class="py-10">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
-                    <h1 class="font-bold text-2xl mb-3">Help jij de natuur?</h1>
-                    <p class="leading-relaxed">
-                        Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten
-                        we zien
-                        hoe jij met kleine acties een groot verschil kunt maken. Of je nu afval opruimt,
-                        bloemen
-                        zaait
-                        of meedoet aan een leuke natuuractie: iedereen kan een natuurbeschermer zijn!
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
 
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-xl font-bold mb-4 text-gray-800">Challenges</h2>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
                 @forelse($challenges as $challenge)
                     <div
-                        class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1" aria-label="Challenge 1">
+                        class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1"
+                        aria-label="Challenge 1">
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
 
 
-{{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">--}}
+                            {{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">--}}
                             <img src="{{ asset('storage/' . $challenge->image_path) }}"
                                  alt="Challenge Image">
 
@@ -123,7 +149,8 @@
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
                                     <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}"
+                                        aria-hidden="true">
             ★
         </span>
                                 @endfor
