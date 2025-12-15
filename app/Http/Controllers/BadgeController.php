@@ -148,6 +148,4 @@ class BadgeController extends Controller
             'nextBadge'
         ));
     }
-
-
 }
