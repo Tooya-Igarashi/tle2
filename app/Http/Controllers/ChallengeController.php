@@ -28,6 +28,7 @@ class ChallengeController extends Controller
         // Query + filter + max 3
         $challenges = Challenge::with('difficulty')
             ->filter($request->only('search', 'difficulty'))
+            ->latest()
             ->take(3)
             ->get();
 
