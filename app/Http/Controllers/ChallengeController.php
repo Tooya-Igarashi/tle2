@@ -62,7 +62,7 @@ class ChallengeController extends Controller
         $user = auth()->user();
         if (\Auth::user()->is_admin === 1) {
             return view('admin.challenges.create', compact('difficulties', 'badges'));
-        } elseif ($user->rank != 3) {
+        } elseif ($user->rank >= 3) {
             return redirect()->route('dashboard')->with('status', ' Je bent nog geen Uil rank.');
         }
         return view('user.create', compact('difficulties', 'badges'));

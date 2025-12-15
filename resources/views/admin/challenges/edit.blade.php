@@ -91,14 +91,14 @@
 
                         <!-- Image -->
                         <div>
-                            <label class="font-semibold text-gray-800 block mb-1">Image</label>
+                            <label class="font-semibold text-gray-800 block mb-1">Upload</label>
                             <input id="image_path" name="image_path" type="file" accept="image/*"
                                    class="mt-1 block w-full text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
 
                             @if($challenge->image_path)
                                 <div class="mt-2">
                                     <label class="font-semibold text-gray-800 block mb-1">Current Image</label>
-                                    <img src="{{ $challenge->image_path }}" alt="Current challenge image"
+                                    <img src="{{ asset($challenge->image_path) }}" alt="Current challenge image"
                                          class="max-h-40 rounded-lg shadow">
                                 </div>
                             @endif
