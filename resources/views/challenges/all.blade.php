@@ -22,8 +22,9 @@
 
         {{-- Filter + Zoekbalk --}}
         <div class="max-w-6xl mx-auto px-6 mb-6 flex justify-between items-center">
-            <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
-                @csrf
+            <div class="flex items-center">
+                <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
+                    @csrf
                 <select name="difficulty"
                         class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
                     <option value="">All</option>
@@ -42,7 +43,12 @@
                 <a href="{{ route('challenges.all') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
                     Reset
                 </a>
+                </form>
+            </div>
 
+                <div class="flex items-center gap-4">
+                    <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
+                        @csrf
                 <input
                     type="text"
                     name="search"
@@ -57,8 +63,10 @@
                 >
                     Zoeken
                 </button>
-            </form>
+                    </form>
+                </div>
         </div>
+
 
         {{-- Challenges --}}
         <div class="max-w-6xl mx-auto px-6">
@@ -72,9 +80,12 @@
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
                             {{--@dd($challenge->completed)--}}
                             {{-- Afbeelding --}}
-                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"
-                                 class="w-full h-40 object-cover rounded-xl">
+{{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"--}}
+{{--                                 class="w-full h-40 object-cover rounded-xl">--}}
 
+                            <img src="{{ asset('storage/' . $challenge->image_path) }}"
+                                 alt="Challenge Image"
+                                 class="w-full h-40 object-cover rounded-xl">
                             {{-- Titel --}}
                             <h3 class="text-lg font-bold text-black">
                                 {{ $challenge->title }}
