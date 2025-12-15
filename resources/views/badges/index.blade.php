@@ -26,7 +26,6 @@
                 @endforelse
             </div>
         </div>
-
         <!-- Tweede container: Nog te behalen badges -->
         <h2 class="text-2xl font-bold mt-2 mb-0 text-black">
             Nog te behalen badges ({{ $notyetachieved }} van {{ $totalbadges }})</h2>

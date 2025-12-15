@@ -2,14 +2,13 @@
     <div class="bg-white pb-20">
         <div class="bg-blue-400 border rounded-2xl mt-0 shadow p-6 max-w-7xl mx-auto">
             {{-- Bovenste grid: profiel + badges + rank --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col md:grid md:grid-cols-3 gap-8">
+
 
                 {{-- Linkerkant: profielfoto + naam --}}
-                <div class="flex flex-col items-center md:items-center">
+                <div class="flex flex-col items-center text-center w-full px-4 md:px-0">
                     <h3 class="text-3xl font-semibold mb-1">Profiel</h3>
-
                     <h2 class="mt-4 text-2xl font-bold">{{ $user->name }}</h2>
-
                     <p class="mt-1 text-sm">
                         <span class="font-semibold">Guides gedaan:</span>
                         {{ $owned }}
@@ -23,7 +22,7 @@
                 </div>
 
                 {{-- Badge + Rank sectie --}}
-                <div class="col-span-2 flex gap-6">
+                <div class="col-span-2 flex flex-col md:flex-row gap-6">
 
                     {{-- Badges kolom --}}
                     <div class="flex flex-col items-center gap-4">
@@ -34,7 +33,8 @@
                                 <p class="text-center text-black text-lg font-medium">Je hebt nog geen badges</p>
                             </div>
                         @else
-                            <div class="grid grid-cols-2 gap-4 justify-items-center">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-4 justify-items-center">
+
                                 @foreach($badges as $badge)
                                     <div class="flex flex-col items-center">
                                         <div
@@ -55,7 +55,8 @@
                     </div>
 
                     {{-- Rank kolom --}}
-                    <div class="flex flex-col items-center gap-0 w-1/2 flex-shrink-0 ml-40">
+                    <div class="flex flex-col items-center gap-0 w-full md:w-1/2 flex-shrink-0 md:ml-40">
+
                         {{-- Rank afbeelding en naam --}}
                         <h3 class="text-3xl font-semibold mb-3">Rang: {{ $rankName }}</h3>
 
