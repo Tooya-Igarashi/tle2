@@ -45,6 +45,15 @@ class Challenge extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function completedByUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'challenge_completions'
+        )->withPivot('completed_at');
+    }
+
+
     public function difficulty()
     {
         return $this->belongsTo(Difficulty::class);

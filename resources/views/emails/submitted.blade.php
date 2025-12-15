@@ -4,11 +4,11 @@
 
 
 Challenge foto:
-<a href="{{ url($submitted->challenge->image_path) }}"> Klik hier</a>
+<a href="{{ asset($submitted->challenge->image_path) }}"> Klik hier</a>
 
 <br>
 Gestuurde foto:
-<a href="{{ url($submitted->content) }}"> Klik hier</a>
+<a href="{{ asset($submitted->content) }}"> Klik hier</a>
 
 <br>
 <br>

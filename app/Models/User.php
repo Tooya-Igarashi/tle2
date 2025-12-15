@@ -53,6 +53,15 @@ class User extends Authenticatable
         return $this->hasMany(Challenge::class);
     }
 
+    public function completedChallenges()
+    {
+        return $this->belongsToMany(
+            Challenge::class,
+            'challenge_completions'
+        )->withPivot('completed_at');
+    }
+
+
     public function submissions()
     {
         return $this->hasMany(Submitted::class);

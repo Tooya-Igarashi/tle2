@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Difficulty;
 use Illuminate\Http\Request;
 use App\Models\Badge;
+use App\Models\ChallengeCompletion;
 
 class ChallengeController extends Controller
 {
@@ -34,11 +35,16 @@ class ChallengeController extends Controller
             ->get();
 
         // Badge-IDs ophalen
-        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+        $userCompletedChallengeIds = $user
+            ? ChallengeCompletion::where('user_id', $user->id)
+                ->pluck('challenge_id')
+                ->toArray()
+            : [];
 
         foreach ($challenges as $challenge) {
-            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+            $challenge->completed = in_array($challenge->id, $userCompletedChallengeIds);
         }
+
 
         return view('dashboard', [
             'challenges' => $challenges,
@@ -92,7 +98,7 @@ class ChallengeController extends Controller
             'image' => 'image|max:2048',
         ]);
         $user = auth()->user();
-        
+
         if ($user->is_admin) {
             $published = true;
         } elseif ($user->rank >= 3) {
@@ -143,17 +149,18 @@ class ChallengeController extends Controller
         $difficulties = Difficulty::all();
         $user = auth()->user();
 
-        // Zelfde filters, maar nu ALLE (geen take(3))
         $challenges = Challenge::with('difficulty')
             ->where('published', 1)
             ->filter($request->only('search', 'difficulty'))
             ->get();
-
-
-        $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
+        $userCompletedChallengeIds = $user
+            ? ChallengeCompletion::where('user_id', $user->id)
+                ->pluck('challenge_id')
+                ->toArray()
+            : [];
 
         foreach ($challenges as $challenge) {
-            $challenge->completed = in_array($challenge->badge_id, $userBadgeIds);
+            $challenge->completed = in_array($challenge->id, $userCompletedChallengeIds);
         }
 
         return view('challenges.all', [
