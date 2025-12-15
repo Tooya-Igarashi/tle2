@@ -120,7 +120,7 @@
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
                                     <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">
                                         ★
                                     </span>
                                 @endfor
@@ -139,7 +139,7 @@
                             <div class="flex justify-end">
                                 <a href="{{ route('challenges.show', $challenge) }}"
                                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                                    Meer >
+                                    Challenge inzien
                                 </a>
                             </div>
                         </div>

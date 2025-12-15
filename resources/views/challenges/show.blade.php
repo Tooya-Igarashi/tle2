@@ -22,7 +22,7 @@
                             {{ $challenge->title }}
                         </h1>
 
-                        <div class="flex items-center mb-3">
+                        <div class="flex items-center mb-3" aria-label="difficulty {{$challenge->difficulty->difficulty}}">
 {{--                            @php--}}
 {{--                                $stars = $difficulty === 'Easy' ? -3 : ($difficulty === 'Medium' ? -2  : -1);--}}
 {{--                            @endphp--}}
@@ -60,13 +60,12 @@
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
                                     <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">
                                         ★
                                     </span>
                                 @endfor
                             </div>
                         </div>
-
                         <p class="text-gray-700 leading-relaxed">
                             {{ $challenge->description }}
                         </p>

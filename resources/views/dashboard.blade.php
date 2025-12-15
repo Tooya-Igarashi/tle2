@@ -78,7 +78,7 @@
 
                 @forelse($challenges as $challenge)
                     <div
-                        class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+                        class="bg-green-700 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1" aria-label="Challenge 1">
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
 
 
@@ -123,7 +123,7 @@
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
                                     <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}">
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">
             ★
         </span>
                                 @endfor
@@ -142,7 +142,7 @@
                             <div class="flex justify-end">
                                 <a href="{{route('challenges.show', $challenge)}}"
                                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                                    Meer >
+                                    Challenge inzien
                                 </a>
                             </div>
                         </div>
