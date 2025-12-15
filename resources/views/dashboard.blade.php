@@ -88,7 +88,7 @@
 
                             {{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto">--}}
                             <img src="{{ asset('storage/' . $challenge->image_path) }}"
-                                 alt="Challenge Image">
+                                 alt="Challenge Image" class="w-full h-40 object-cover rounded-xl">
 
                             <h3 class="text-lg font-bold text-black">
                                 {{ $challenge->title }}

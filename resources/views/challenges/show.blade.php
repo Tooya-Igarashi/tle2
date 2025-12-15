@@ -14,7 +14,7 @@
 
                     <img src="{{ asset('storage/' . $challenge->image_path) }}"
                          alt="Challenge Image"
-                          class="max-w-44">
+                          class="w-44 h-auto object-cover rounded-xl">
 
                     <div class="flex-1">
 
