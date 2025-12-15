@@ -27,6 +27,7 @@ class ChallengeController extends Controller
 
         // Query + filter + max 3
         $challenges = Challenge::with('difficulty')
+            ->where('published', 1)
             ->filter($request->only('search', 'difficulty'))
             ->latest()
             ->take(3)
@@ -49,12 +50,20 @@ class ChallengeController extends Controller
 
     public function show(Challenge $challenge)
     {
-        $steps = $challenge->steps()->orderBy('step_number')->get();
+        if (!$challenge->published) {
+            return redirect()
+                ->route('dashboard')
+                ->with('status', 'Deze challenge is nog niet beschikbaar.');
+        }
+        $steps = $challenge->steps()
+            ->orderBy('step_number')
+            ->get();
         $difficulty = Difficulty::where('id', $challenge->difficulty_id)
             ->value('difficulty');
 
         return view('challenges.show', compact('challenge', 'steps', 'difficulty'));
     }
+
 
     public function create()
     {
@@ -74,15 +83,25 @@ class ChallengeController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
+            'description' => 'required|string|max:1500',
             'difficulty_id' => 'required|exists:difficulties,id',
             'badge_id' => 'required|exists:badges,id',
             'published' => 'boolean',
             'duration' => 'required|date_format:H:i',
-            'steps.*' => 'nullable|string|max:50',
+            'steps.*' => 'nullable|string|max:200',
             'image' => 'image|max:2048',
         ]);
-
+        $user = auth()->user();
+        
+        if ($user->is_admin) {
+            $published = true;
+        } elseif ($user->rank >= 3) {
+            $published = false;
+        } else {
+            return redirect()
+                ->back()
+                ->with('denied', 'Je hebt niet voldoende rechten om een challenge aan te maken.');
+        }
         $path = null;
 
         if ($request->hasFile('image')) {
@@ -95,7 +114,7 @@ class ChallengeController extends Controller
         $challenge->description = $validated['description'];
         $challenge->difficulty_id = $validated['difficulty_id'];
         $challenge->badge_id = $validated['badge_id'] ?? null;
-        $challenge->published = $validated['published'] ?? false;
+        $challenge->published = $published;
         $challenge->duration = $validated['duration'];
         $challenge->user_id = auth()->id();
         $challenge->image_path = $path;
@@ -126,8 +145,10 @@ class ChallengeController extends Controller
 
         // Zelfde filters, maar nu ALLE (geen take(3))
         $challenges = Challenge::with('difficulty')
+            ->where('published', 1)
             ->filter($request->only('search', 'difficulty'))
             ->get();
+
 
         $userBadgeIds = $user ? $user->badges->pluck('id')->toArray() : [];
 

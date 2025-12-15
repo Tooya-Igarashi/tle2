@@ -92,7 +92,6 @@
                 </div>
 
                 {{-- PUBLISHED --}}
-                <input type="hidden" name="published" value="0">
 
                 {{-- Duration --}}
                 <div>
