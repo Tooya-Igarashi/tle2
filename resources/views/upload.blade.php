@@ -19,7 +19,8 @@
 
                 <div class="flex" aria-label="difficulty {{$challenge->difficulty->difficulty}}">
                     @for($i = 1; $i <= 3; $i++)
-                        <span class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">★</span>
+                        <span class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}"
+                              aria-hidden="true">★</span>
                     @endfor
                 </div>
                 <p></p>
@@ -60,10 +61,10 @@
                 <div class="flex-row gap-4 ">
 
 
-                        <button type="button" onclick="document.getElementById('content').click()"
-                                class="inline-flex items-center px-6 py-2.5 rounded-md bg-amber-300 text-black font-medium hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Upload
-                        </button>
+                    <button type="button" onclick="document.getElementById('content').click()"
+                            class="inline-flex items-center px-6 py-2.5 rounded-md bg-amber-300 text-black font-medium hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Upload
+                    </button>
                     <input type="file" name="content" id="content"
                            class=" hidden block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700  hover:file:bg-indigo-100">
 
@@ -73,10 +74,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
-
     </div>
-
-
 </x-app-layout>
