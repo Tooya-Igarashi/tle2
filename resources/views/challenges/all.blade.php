@@ -25,46 +25,46 @@
             <div class="flex items-center">
                 <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
                     @csrf
-                <select name="difficulty"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
-                    <option value="">All</option>
-                    @foreach($difficulties as $difficulty)
-                        <option
-                            value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
-                            {{ $difficulty->difficulty }}
-                        </option>
-                    @endforeach
-                </select>
+                    <select name="difficulty"
+                            class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded px-6 py-3 ">
+                        <option value="">All</option>
+                        @foreach($difficulties as $difficulty)
+                            <option
+                                value="{{ $difficulty->id }}" {{ request('difficulty') == $difficulty->id ? 'selected' : '' }}>
+                                {{ $difficulty->difficulty }}
+                            </option>
+                        @endforeach
+                    </select>
 
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">
-                    Filter
-                </button>
+                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">
+                        Filter
+                    </button>
 
-                <a href="{{ route('challenges.all') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
-                    Reset
-                </a>
+                    <a href="{{ route('challenges.all') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
+                        Reset
+                    </a>
                 </form>
             </div>
 
-                <div class="flex items-center gap-4">
-                    <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
-                        @csrf
-                <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    value="{{ request('search') }}"
-                    placeholder="Zoek een challenge..."
-                    class="w-full border border-gray-300 rounded-xl px-4 py-2 shadow-sm focus:ring-green-600 focus:border-green-600"
-                >
-                <button
-                    type="submit"
-                    class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition"
-                >
-                    Zoeken
-                </button>
-                    </form>
-                </div>
+            <div class="flex items-center gap-4">
+                <form method="GET" action="{{ route('challenges.all') }}" class="mb-6 flex gap-4">
+                    @csrf
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        value="{{ request('search') }}"
+                        placeholder="Zoek een challenge..."
+                        class="w-full border border-gray-300 rounded-xl px-4 py-2 shadow-sm focus:ring-green-600 focus:border-green-600"
+                    >
+                    <button
+                        type="submit"
+                        class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition"
+                    >
+                        Zoeken
+                    </button>
+                </form>
+            </div>
         </div>
 
 
@@ -76,12 +76,27 @@
 
                 @forelse($challenges as $challenge)
                     <div
-                        class="{{ $challenge->completed ? 'bg-green-700 border-8 border-yellow-400' : 'bg-green-700 border border-gray-200' }} border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+                        class="relative {{ $challenge->completed ? 'bg-white border-8 border-pink-600' : 'bg-white border border-gray-200' }} rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+
+                        @if($challenge->completed)
+                            <div
+                                class="absolute -top-4 -right-4 bg-green-500 text-white rounded-full w-15 h-15 flex items-center justify-center shadow-lg z-20 border-4 border-white"
+                                title="Challenge voltooid"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                        @endif
+
+
                         <div class="p-6 space-y-4 flex flex-col justify-between h-full">
                             {{--@dd($challenge->completed)--}}
                             {{-- Afbeelding --}}
-{{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"--}}
-{{--                                 class="w-full h-40 object-cover rounded-xl">--}}
+                            {{--                            <img src="{{ $challenge->image_path }}" alt="Voorbeeld foto"--}}
+                            {{--                                 class="w-full h-40 object-cover rounded-xl">--}}
 
                             <img src="{{ asset('storage/' . $challenge->image_path) }}"
                                  alt="Challenge Image"
@@ -120,7 +135,8 @@
                                 {{-- Sterren tekenen --}}
                                 @for ($i = 1; $i <= 3; $i++)
                                     <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}" aria-hidden="true">
+                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}"
+                                        aria-hidden="true">
                                         ★
                                     </span>
                                 @endfor
