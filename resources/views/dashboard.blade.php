@@ -1,197 +1,154 @@
 <x-app-layout>
-    <x-slot name="header">
-        Homepagina
-    </x-slot>
 
-    <div class="bg-white pb-20">
+
+    {{-- Header --}}
+    <header role="banner">
+        <x-slot name="header">
+            Homepagina
+        </x-slot>
+    </header>
+
+    {{-- Hoofdinhoud --}}
+    <main id="main-content" role="main" class="bg-white pb-20">
+
+        {{-- Statusmeldingen --}}
         @if(session('status'))
-            <div class="bg-white">
-                <div class="py-10">
-                    <div class="max-w-6xl mx-auto px-6">
-                        <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
-                            <div class="alert alert-info text-black p12 font-semibold">
-                                {{ session('status') }}
-                            </div>
-                        </div>
+            <section aria-live="polite" class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
+                        <p class="font-semibold">
+                            {{ session('status') }}
+                        </p>
                     </div>
                 </div>
-            </div>
+            </section>
         @endif
-        @if(session('error'))
-            <div class="bg-white">
-                <div class="py-10">
-                    <div class="max-w-6xl mx-auto px-6">
-                        <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
-                            <div class="alert alert-info text-black p12 font-semibold">
-                                <div class="alert alert-danger">{{ session('error') }}</div>
-                            </div>
-                        </div>
+
+        @if(session('error') || session('denied'))
+            <section aria-live="assertive" class="py-10">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="bg-red-600 shadow-md rounded-2xl p-8 text-white">
+                        <p class="font-semibold">
+                            {{ session('error') ?? session('denied') }}
+                        </p>
                     </div>
                 </div>
-            </div>
+            </section>
         @endif
-        @if(session('denied'))
-            <div class="bg-white">
-                <div class="py-10">
-                    <div class="max-w-6xl mx-auto px-6">
-                        <div class="bg-red-600 shadow-md rounded-2xl p-8 text-black">
-                            <div class="alert alert-info text-black p12 font-semibold">
-                                <div class="alert alert-danger">{{ session('denied') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
+
+        {{-- Confetti (met reduced motion check) --}}
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 @if(session('status'))
-                setTimeout(() => {
-                    const duration = 5 * 1000; // 5 seconden
-                    const animationEnd = Date.now() + duration;
-                    const defaults = {
-                        startVelocity: 40,
-                        spread: 360,
-                        ticks: 80,
-                        zIndex: 9999
-                    };
-                    const interval = setInterval(function () {
-                        const timeLeft = animationEnd - Date.now();
-                        if (timeLeft <= 0) return clearInterval(interval);
-                        // Meer particles
-                        const particleCount = 250 * (timeLeft / duration);
-                        confetti(Object.assign({}, defaults, {
-                            particleCount,
-                            origin: {x: Math.random(), y: Math.random() - 0.2},
-                            colors: ['#fbbf24', '#f59e0b', '#84cc16', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'] // veel kleuren
-                        }));
-                    }, 200); // elke 200ms een burst
-                }, 300);
+                if (!prefersReducedMotion) {
+                    setTimeout(() => {
+                        const duration = 5000;
+                        const animationEnd = Date.now() + duration;
+                        const interval = setInterval(() => {
+                            if (Date.now() > animationEnd) return clearInterval(interval);
+                            confetti({particleCount: 100, spread: 360});
+                        }, 300);
+                    }, 300);
+                }
                 @endif
             });
         </script>
-        <div class="bg-white">
 
-            {{-- Intro --}}
-            <div class="py-10">
-                <div class="max-w-6xl mx-auto px-6">
-                    <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
-                        <h2 class="font-bold text-2xl mb-3">Help jij de natuur?</h2>
-                        <p class="leading-relaxed ">
-                            Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten
-                            we zien
-                            hoe jij met kleine acties een groot verschil kunt maken. Of je nu afval opruimt,
-                            bloemen
-                            zaait
-                            of meedoet aan een leuke natuuractie: iedereen kan een natuurbeschermer zijn!
-                        </p>
-                        <a href="https://www.natuurmonumenten.nl/natuurbeschermer/geef" target="_blank"
-                           class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition mt-6">
-                            Doneer Nu!
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{-- Intro --}}
+        <section aria-labelledby="intro-heading" class="py-10">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
+                    <h2 id="intro-heading" class="font-bold text-2xl mb-3">
+                        Help jij de natuur?
+                    </h2>
 
-        {{-- Challenges --}}
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-xl font-bold mb-4 text-gray-800">Challenges</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                @forelse($challenges as $challenge)
-                    <div
-                        class="relative bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1
-        {{ $challenge->completed ? 'border-8 border-pink-600' : 'border border-gray-200' }}"
-                        aria-label="Challenge {{ $challenge->title }}">
-
-                        @if($challenge->completed)
-                            <div
-                                class="absolute -top-5 -right-5 bg-green-500 text-white rounded-full w-14 h-14 flex items-center justify-center
-                       shadow-lg z-20 border-4 border-white"
-                                title="Challenge voltooid"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" aria-label="Challenge gedaan"
-                                          d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                        @endif
-
-                        <div class="p-6 space-y-4 flex flex-col justify-between h-full">
-
-                            <img src="{{ asset('storage/' . $challenge->image_path) }}"
-                                 alt="Challenge Image"
-                                 class="w-full h-40 object-cover rounded-xl">
-
-                            <h3 class="text-lg font-bold text-black">
-                                {{ $challenge->title }}
-                            </h3>
-                            @php
-                                $diffId = optional($challenge->difficulty)->id ?? 0;
-
-                                $starMap = [
-                                    1 => 1,
-                                    2 => 2,
-                                    3 => 3,
-                                ];
-
-                                $stars = $starMap[$diffId] ?? 0;
-
-                                $labels = [
-                                    1 => 'Easy',
-                                    2 => 'Medium',
-                                    3 => 'Hard',
-                                ];
-
-                                $difficultyLabel = $labels[$diffId] ?? 'Onbekend';
-                            @endphp
-
-                            <div class="flex items-center gap-1 mt-2">
-                                @for ($i = 1; $i <= 3; $i++)
-                                    <span
-                                        class="text-xl {{ $i <= $stars ? 'text-yellow-400' : 'text-gray-300' }}"
-                                        aria-hidden="true">
-            ★
-        </span>
-                                @endfor
-
-                                <span class="ml-2 text-sm text-gray-700 font-bold">
-                    {{ $difficultyLabel }}
-                </span>
-                            </div>
-
-                            <p class="text-gray-700 text-sm line-clamp-3 font-semibold">
-                                {{ Str::limit($challenge->description, 140) }}
-                            </p>
-
-                            <div class="flex justify-end">
-                                <a href="{{ route('challenges.show', $challenge) }}"
-                                   class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                                    Challenge inzien
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-
-                    <p class="text-gray-600 col-span-full text-center py-10">
-                        Er zijn nog geen challenges beschikbaar.
+                    <p>
+                        Veel jongeren willen iets doen voor de natuur. Samen met
+                        <strong>Natuurmonumenten</strong> laten we zien hoe jij met kleine acties
+                        een groot verschil kunt maken.
                     </p>
-                @endforelse
 
-                <div class="mt-8 col-span-full flex justify-center">
-                    <a href="{{ route('challenges.all') }}"
-                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                        Bekijk alle challenges
+                    <a href="https://www.natuurmonumenten.nl/natuurbeschermer/geef"
+                       target="_blank"
+                       rel="noopener"
+                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition mt-6">
+                        Doneer nu
                     </a>
                 </div>
-
-
             </div>
-        </div>
+        </section>
 
-    </div>
+        {{-- Challenges --}}
+        <section aria-labelledby="challenges-heading" class="max-w-6xl mx-auto px-6">
+            <h2 id="challenges-heading" class="text-xl font-bold mb-4 text-gray-800">
+                Challenges
+            </h2>
+
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
+                @forelse($challenges as $challenge)
+                    @php $diffId = optional($challenge->difficulty)->id ?? 0; $starMap = [ 1 => 1, 2 => 2, 3 => 3, ]; $stars = $starMap[$diffId] ?? 0; $labels = [ 1 => 'Easy', 2 => 'Medium', 3 => 'Hard', ]; $difficultyLabel = $labels[$diffId] ?? 'Onbekend'; @endphp
+                    <li>
+                        <article
+                            class="relative bg-white rounded-2xl shadow-md hover:shadow-xl transition
+                            {{ $challenge->completed ? 'border-8 border-pink-600' : 'border border-gray-200' }}"
+                            aria-labelledby="challenge-{{ $challenge->id }}-title">
+
+                            @if($challenge->completed)
+                                <span
+                                    class="absolute -top-5 -right-5 bg-green-500 text-white rounded-full w-14 h-14
+                                    flex items-center justify-center shadow-lg border-4 border-white"
+                                    aria-label="Challenge voltooid">
+                                    ✔
+                                </span>
+                            @endif
+
+                            <div class="p-6 space-y-4 flex flex-col h-full">
+
+                                <img
+                                    src="{{ asset('storage/' . $challenge->image_path) }}"
+                                    alt="Afbeelding bij challenge {{ $challenge->title }}"
+                                    class="w-full h-40 object-cover rounded-xl"
+                                >
+
+                                <h3 id="challenge-{{ $challenge->id }}-title"
+                                    class="text-lg font-bold text-black">
+                                    {{ $challenge->title }}
+                                </h3>
+
+                                <p class="text-sm font-bold">
+                                    Moeilijkheid: {{ $difficultyLabel }}
+                                </p>
+
+                                <p class="text-gray-700 text-sm font-semibold">
+                                    {{ Str::limit($challenge->description, 140) }}
+                                </p>
+
+                                <div class="mt-auto flex justify-end">
+                                    <a href="{{ route('challenges.show', $challenge) }}"
+                                       class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                                        Challenge inzien
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                @empty
+                    <li class="col-span-full text-center py-10">
+                        Er zijn nog geen challenges beschikbaar.
+                    </li>
+                @endforelse
+            </ul>
+
+            <nav class="mt-8 flex justify-center" aria-label="Alle challenges">
+                <a href="{{ route('challenges.all') }}"
+                   class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                    Bekijk alle challenges
+                </a>
+            </nav>
+        </section>
+
+    </main>
 
 </x-app-layout>
