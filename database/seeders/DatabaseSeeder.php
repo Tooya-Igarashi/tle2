@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DifficultySeeder::class,
             BadgeSeeder::class,
-            // create users + challenges + related pivots and steps
-//            ChallengeSeeder::class,
+            ChallengeSeeder::class,
+            StepsSeeder::class,
         ]);
     }
 }
