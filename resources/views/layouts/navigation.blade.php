@@ -118,31 +118,33 @@
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Home') }}
                 </x-responsive-nav-link>
-                @if(Auth::check() && Auth::user()->is_admin === 1)
-                    <x-responsive-nav-link :href="route('challenges.create')"
-                                           :active="request()->routeIs('challenges.create')">
-                        {{ __('Create Challenge') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('admin.dashboard')"
-                                           :active="request()->routeIs('admin.dashboard')">
-                        {{ __('Dashboard Admin') }}
-                    </x-responsive-nav-link>
-                @else
-                    @if(Auth::check() && auth()->user()->rank >= 3)
-                        <x-responsive-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
-                            {{ __('Maak een Challenge') }}
+                @auth
+                    @if(Auth::check() && Auth::user()->is_admin === 1)
+                        <x-responsive-nav-link :href="route('challenges.create')"
+                                               :active="request()->routeIs('challenges.create')">
+                            {{ __('Create Challenge') }}
                         </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('admin.dashboard')"
+                                               :active="request()->routeIs('admin.dashboard')">
+                            {{ __('Dashboard Admin') }}
+                        </x-responsive-nav-link>
+                    @else
+                        @if(Auth::check() && auth()->user()->rank >= 3)
+                            <x-responsive-nav-link :href="route('user.create')"
+                                                   :active="request()->routeIs('user.create')">
+                                {{ __('Maak een Challenge') }}
+                            </x-responsive-nav-link>
+                        @endif
                     @endif
-                @endif
-                @if(Auth::check() && Auth::user()->is_admin !== 1)
-                @else
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-responsive-nav-link :href="route('badges.create')"
-                                               :active="request()->routeIs('badges.create')">
-                            {{ __('Create Badge') }}
-                        </x-responsive-nav-link>
-                    </div>
-                @endif
+                    @if(Auth::check() && Auth::user()->is_admin !== 1)
+                    @else
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-responsive-nav-link :href="route('badges.create')"
+                                                   :active="request()->routeIs('badges.create')">
+                                {{ __('Create Badge') }}
+                            </x-responsive-nav-link>
+                        </div>
+                    @endif
             </div>
 
             <!-- Responsive Settings Options -->
@@ -176,6 +178,7 @@
                     </form>
                 </div>
             </div>
+            @endauth
         </div>
     </div>
 </nav>
