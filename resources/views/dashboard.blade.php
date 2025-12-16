@@ -108,7 +108,8 @@
                 @forelse($challenges as $challenge)
                     <div
                         class="relative bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1
-        {{ $challenge->completed ? 'border-8 border-pink-600' : 'border border-gray-200' }}">
+        {{ $challenge->completed ? 'border-8 border-pink-600' : 'border border-gray-200' }}"
+                        aria-label="Challenge {{ $challenge->title }}">
 
                         @if($challenge->completed)
                             <div
@@ -118,7 +119,7 @@
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                    <path stroke-linecap="round" stroke-linejoin="round" aria-label="Challenge gedaan"
                                           d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>

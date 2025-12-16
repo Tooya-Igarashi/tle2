@@ -9,23 +9,49 @@ use App\Models\Badge;
 use App\Models\BadgeUser;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\ChallengeCompletion;
 
 class BadgeController extends Controller
 {
     public function index(Request $request)
     {
         $user = $request->user();
-        // IDs van badges die de gebruiker heeft
-        $userBadgeIds = \DB::table('badge_user')
-            ->where('user_id', $user->id)
-            ->pluck('id_badge');
-        // Badges die de gebruiker al heeft
-        $BadgeUser = Badge::whereIn('id', $userBadgeIds)->get();
-        $badges = Badge::whereNotIn('id', $userBadgeIds)->get();
-        $notyetachieved = $badges->count();
-        $earnedBadgesCount = BadgeUser::where('user_id', $user->id)->count();
-        $totalbadges = Badge::count();
-        return view('badges.index', compact('BadgeUser', 'badges', 'earnedBadgesCount', 'totalbadges', 'notyetachieved'));
+
+        $challenges = Challenge::with('badge')
+            ->whereNotNull('badge_id')
+            ->get();
+
+        $completedChallengeIds = ChallengeCompletion::where('user_id', $user->id)
+            ->pluck('challenge_id')
+            ->toArray();
+
+        foreach ($challenges as $challenge) {
+            $challenge->completed = in_array($challenge->id, $completedChallengeIds);
+        }
+
+        $earnedBadges = $challenges
+            ->where('completed', true)
+            ->pluck('badge')
+            ->unique('id')
+            ->values();
+
+        $todoBadges = $challenges
+            ->where('completed', false)
+            ->pluck('badge')
+            ->unique('id')
+            ->values();
+
+        $earnedBadgesCount = $earnedBadges->count();
+        $totalbadges = $todoBadges->count() + $earnedBadgesCount;
+        $notyetachieved = $todoBadges->count();
+
+        return view('badges.index', [
+            'earnedBadges' => $earnedBadges,
+            'todoBadges' => $todoBadges,
+            'earnedBadgesCount' => $earnedBadgesCount,
+            'totalbadges' => $totalbadges,
+            'notyetachieved' => $notyetachieved,
+        ]);
     }
 
     public function store(Request $request)
@@ -57,30 +83,63 @@ class BadgeController extends Controller
 
     public function show($badgeId, Request $request)
     {
-        $badge = Badge::find($badgeId); // handmatig ophalen
-
-        if (!$badge) {
-            // redirect naar library als de badge niet bestaat
-            return redirect()->route('badges.library')->with('error', 'Badge bestaat niet.');
-        }
-
         $user = $request->user();
 
-        $owned = BadgeUser::where('user_id', $user->id)
-            ->where('id_badge', $badge->id)
-            ->first();
+        // 1️⃣ Alle challenges die een badge hebben
+        $challengesWithBadge = Challenge::with('badge')
+            ->whereNotNull('badge_id')
+            ->get();
 
-        // Rest van je logica blijft hetzelfde
-        $userBadges = $user->badges()->pluck('badges.id')->toArray();
-        $allBadges = Badge::orderBy('id')->get()->sortBy(function ($b) use ($userBadges) {
-            return in_array($b->id, $userBadges) ? 0 : 1;
-        })->values();
+        // 2️⃣ Voltooide challenges van de user
+        $completedChallengeIds = [];
 
-        $currentIndex = $allBadges->search(fn($b) => $b->id === $badge->id);
-        $previousBadge = $currentIndex > 0 ? $allBadges[$currentIndex - 1] : null;
-        $nextBadge = $currentIndex < $allBadges->count() - 1 ? $allBadges[$currentIndex + 1] : null;
-        $challenge = Challenge::where('badge_id', $badge->id)->first();
+        if ($user) {
+            $completedChallengeIds = ChallengeCompletion::where('user_id', $user->id)
+                ->pluck('challenge_id')
+                ->toArray();
+        }
 
-        return view('badges.show', compact('badge', 'owned', 'challenge', 'previousBadge', 'nextBadge'));
+        // 3️⃣ Markeer challenges als completed
+        foreach ($challengesWithBadge as $challenge) {
+            $challenge->completed = in_array($challenge->id, $completedChallengeIds);
+        }
+
+        // 4️⃣ Alle unieke badges die gekoppeld zijn aan challenges
+        $badges = $challengesWithBadge
+            ->pluck('badge')
+            ->unique('id')
+            ->values();
+
+        // 5️⃣ Huidige badge
+        $badge = $badges->firstWhere('id', $badgeId);
+
+        abort_if(!$badge, 404);
+
+        // 6️⃣ Challenges van deze badge
+        $challenges = $challengesWithBadge
+            ->where('badge_id', $badge->id)
+            ->values();
+
+        // 7️⃣ Badge is owned als minstens 1 challenge completed is
+        $owned = $challenges->contains(fn($c) => $c->completed);
+
+        // 8️⃣ Navigatie (ALLEEN badges met challenges)
+        $currentIndex = $badges->search(fn($b) => $b->id === $badge->id);
+
+        $previousBadge = $currentIndex > 0
+            ? $badges[$currentIndex - 1]
+            : null;
+
+        $nextBadge = $currentIndex < $badges->count() - 1
+            ? $badges[$currentIndex + 1]
+            : null;
+
+        return view('badges.show', compact(
+            'badge',
+            'owned',
+            'challenges',
+            'previousBadge',
+            'nextBadge'
+        ));
     }
 }

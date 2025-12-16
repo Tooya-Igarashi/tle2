@@ -9,16 +9,16 @@
         </div>
 
         <!-- Eerste container: Jouw badges -->
-        <h2 class="text-2xl font-bold mt-2 mb-0 text-black">Jouw badges ({{ $earnedBadgesCount}}
-            van {{ $totalbadges }})
+        <h2 class="text-2xl font-bold mt-2 mb-0 text-black">
+            Jouw badges ({{ $earnedBadgesCount }} van {{ $totalbadges }})
         </h2>
+
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
-            <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
-                @forelse($BadgeUser as $badge)
+            <div class="flex flex-wrap gap-4">
+                @forelse($earnedBadges as $badge)
                     <a href="{{ route('badges.show', $badge->id) }}">
-                        <div class="w-20 h-20 rounded-full overflow-hidden border flex items-center justify-center">
-                            <img src="{{ asset($badge->image) }}" alt="{{ $badge->name }}"
-                                 class="w-full h-full object-cover hover:opacity-70">
+                        <div class="w-20 h-20 rounded-full overflow-hidden border">
+                            <img src="{{ asset($badge->image) }}" class="w-full h-full object-cover">
                         </div>
                     </a>
                 @empty
@@ -26,17 +26,18 @@
                 @endforelse
             </div>
         </div>
-        <!-- Tweede container: Nog te behalen badges -->
+
         <h2 class="text-2xl font-bold mt-2 mb-0 text-black">
-            Nog te behalen badges ({{ $notyetachieved }} van {{ $totalbadges }})</h2>
+            Nog te behalen badges ({{ $notyetachieved }} van {{ $totalbadges }})
+        </h2>
+
         <div class="p-6 bg-gray-50 rounded-2xl shadow w-full h-[225px] overflow-auto">
-            <div class="flex flex-wrap gap-4 justify-start items-start h-full -mt-2">
-                @foreach($badges as $badge)
+            <div class="flex flex-wrap gap-4">
+                @foreach($todoBadges as $badge)
                     <a href="{{ route('badges.show', $badge->id) }}">
-                        <div
-                            class="w-20 h-20 rounded-full overflow-hidden relative flex items-center justify-center">
-                            <img src="{{ asset($badge->image) }}" alt="{{ $badge->name }}" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black opacity-80 hover:opacity-70 transition"></div>
+                        <div class="w-20 h-20 rounded-full overflow-hidden relative">
+                            <img src="{{ asset($badge->image) }}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black opacity-80"></div>
                         </div>
                     </a>
                 @endforeach

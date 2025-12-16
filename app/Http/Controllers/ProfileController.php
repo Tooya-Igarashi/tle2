@@ -6,6 +6,8 @@ use App\Models\Badge;
 use App\Models\Difficulty;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\ChallengeCompletion;
+
 
 class ProfileController extends Controller
 {
@@ -14,7 +16,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // Tel alle badges van de gebruiker
-        $owned = $user->badges()->count();
+        $owned = ChallengeCompletion::where('user_id', $user->id)->count();
 
         // -------------------------
         // 1. BEPAAL DE RANK

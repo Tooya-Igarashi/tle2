@@ -11,6 +11,7 @@ use App\Models\Submitted;
 use App\Mail\SubmittedMail;
 use App\Models\BadgeUser;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ChallengeCompletion;
 
 class UploadController extends Controller
 {
@@ -100,30 +101,46 @@ class UploadController extends Controller
                 ->with('error', 'Ongeldige token.');
         }
 
+        // 1️⃣ Submission goedkeuren
         $submitted->pending = true;
         $submitted->token = null;
         $submitted->save();
 
-        // Badge logic
+        // 2️⃣ Challenge ophalen
         $challenge = Challenge::find($submitted->challenge_id);
 
-        if ($challenge && $challenge->badge_id) {
+        if ($challenge) {
 
-            $alreadyHasBadge = BadgeUser::where('user_id', $submitted->user_id)
-                ->where('id_badge', $challenge->badge_id)
-                ->exists();
-
-            if (!$alreadyHasBadge) {
-                BadgeUser::create([
-                    'id_badge' => $challenge->badge_id,
+            // 3️⃣ Challenge als VOLTOOID markeren
+            \App\Models\ChallengeCompletion::updateOrCreate(
+                [
                     'user_id' => $submitted->user_id,
-                    'acquire' => now(),
-                ]);
+                    'challenge_id' => $challenge->id,
+                ],
+                [
+                    'completed_at' => now(),
+                ]
+            );
+
+            // 4️⃣ Badge logic (zoals je al had)
+            if ($challenge->badge_id) {
+
+                $alreadyHasBadge = BadgeUser::where('user_id', $submitted->user_id)
+                    ->where('id_badge', $challenge->badge_id)
+                    ->exists();
+
+                if (!$alreadyHasBadge) {
+                    BadgeUser::create([
+                        'id_badge' => $challenge->badge_id,
+                        'user_id' => $submitted->user_id,
+                        'acquire' => now(),
+                    ]);
+                }
             }
         }
 
         return redirect()->route('dashboard')
-            ->with('status', 'Je antwoord klopt! Je hebt een badge gekregen!');
+            ->with('status', 'Challenge is succesvol goedgekeurd 🎉');
     }
 
     public function reject($id, $token)
