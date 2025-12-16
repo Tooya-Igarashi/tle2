@@ -233,6 +233,9 @@ php artisan storage:link
   Ensure emails reach parents/guardians by using a reliable mail service and proper email formatting
 - Token based approval links:
   Use secure, unique tokens in approval/rejection links to prevent unauthorized actions
+- Images in emails are delivered via links instead of embedded images.
+- This is due to server-side restrictions that block inline or attached images.
+- When modifying email functionality, contributors should ensure that image URLs remain accessible and secure.
 
 ## 📄 Disclaimer
 
