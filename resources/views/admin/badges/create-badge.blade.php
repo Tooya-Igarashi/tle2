@@ -3,9 +3,7 @@
     {{-- Header --}}
     <header role="banner">
         <x-slot name="header">
-            <h1 class="text-xl font-semibold">
                 Badge aanmaken
-            </h1>
         </x-slot>
 
         <x-slot name="headerDescription">

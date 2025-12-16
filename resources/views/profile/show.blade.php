@@ -1,14 +1,14 @@
 <x-app-layout>
-
+    <header role="banner">
+        <x-slot name="header">
+            Profiel
+        </x-slot>
+    </header>
     {{-- Hoofdinhoud --}}
     <main id="main" role="main" class="bg-white pb-20">
 
         <section class="bg-blue-400 border rounded-2xl shadow p-6 max-w-7xl mx-auto"
                  aria-labelledby="profile-heading">
-
-            <h1 id="profile-heading" class="sr-only">
-                Profielpagina
-            </h1>
 
             {{-- Grid: profiel / badges / rang --}}
             <div class="flex flex-col md:grid md:grid-cols-3 gap-8">
@@ -19,7 +19,7 @@
 
                     <h2 id="user-profile-heading"
                         class="text-3xl font-semibold mb-1">
-                        Profiel
+                        Gebruiker
                     </h2>
 
                     <p class="mt-4 text-2xl font-bold">
