@@ -6,19 +6,19 @@
         @csrf
 
 
-            <h1 class="text-4xl text-black text-center mb-2">Log in</h1>
+            <h1 class="text-4xl text-white text-center mb-2">Log in</h1>
 
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('E-mail van je ouders')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Wachtwoord')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
