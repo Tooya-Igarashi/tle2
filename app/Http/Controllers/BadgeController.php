@@ -16,7 +16,7 @@ class BadgeController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
+
         $challenges = Challenge::with('badge')
             ->whereNotNull('badge_id')
             ->get();
@@ -42,7 +42,7 @@ class BadgeController extends Controller
             ->values();
 
         $earnedBadgesCount = $earnedBadges->count();
-        $totalbadges = Badge::count();
+        $totalbadges = $todoBadges->count() + $earnedBadgesCount;
         $notyetachieved = $todoBadges->count();
 
         return view('badges.index', [

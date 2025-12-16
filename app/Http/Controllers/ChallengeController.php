@@ -106,7 +106,7 @@ class ChallengeController extends Controller
         } else {
             return redirect()
                 ->back()
-                ->with('denied', 'Je hebt niet voldoende rechten om een challenge aan te maken.');
+                ->with('error', 'Je hebt niet voldoende rechten om een challenge aan te maken.');
         }
         $path = null;
 
