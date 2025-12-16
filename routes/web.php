@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 
 
+Route::get('/', [ChallengeController::class, 'dashboard'])->name('dashboard');
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/index', [ChallengeController::class, 'dashboard'])->name('dashboard');
     Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
     Route::get('/challenge/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
 });

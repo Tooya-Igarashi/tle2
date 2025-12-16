@@ -22,7 +22,7 @@
                         Home
                     </a>
 
-                    @if(Auth::user()->is_admin === 1)
+                    @if(Auth::check() && Auth::user()->is_admin === 1)
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route('challenges.create')"
                                         :active="request()->routeIs('challenges.create')">
@@ -36,7 +36,7 @@
                             </x-nav-link>
                         </div>
                     @else
-                        @if(auth()->user()->rank >= 3)
+                        @if(Auth::check() && auth()->user()->rank >= 3)
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <x-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
                                     {{ __('Maak een Challenge') }}
@@ -44,54 +44,54 @@
                             </div>
                         @endif
                     @endif
-                    @if(Auth::user()->is_admin !== 1)
-                    @else
+                    @if(Auth::check() && Auth::user()->is_admin === 1)
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route('badges.create')" :active="request()->routeIs('badges.create')">
                                 {{ __('Create Badge') }}
                             </x-nav-link>
                         </div>
                     @endif
+
                 </div>
 
                 <!-- Settings Dropdown -->
-                <div class="hidden sm:flex sm:items-center">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-xl
-                                   text-black bg-yellow-400 hover:bg-yellow-500 shadow-md focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                @auth
+                    <!-- Settings Dropdown -->
+                    <div class="hidden sm:flex sm:items-center">
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-xl
+                       text-black bg-yellow-400 hover:bg-yellow-500 shadow-md focus:outline-none transition ease-in-out duration-150">
+                                    <div>{{ auth()->user()->name }}</div>
 
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                  clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.show')">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')"
-                                                 onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                            <x-slot name="content">
+                                <x-dropdown-link :href="route('profile.show')">
+                                    {{ __('Profile') }}
                                 </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
+
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <x-dropdown-link :href="route('logout')"
+                                                     onclick="event.preventDefault(); this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+                @endauth
 
                 <!-- Hamburger -->
                 <div class="flex items-center sm:hidden">
@@ -118,7 +118,7 @@
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Home') }}
                 </x-responsive-nav-link>
-                @if(Auth::user()->is_admin === 1)
+                @if(Auth::check() && Auth::user()->is_admin === 1)
                     <x-responsive-nav-link :href="route('challenges.create')"
                                            :active="request()->routeIs('challenges.create')">
                         {{ __('Create Challenge') }}
@@ -128,13 +128,13 @@
                         {{ __('Dashboard Admin') }}
                     </x-responsive-nav-link>
                 @else
-                    @if(auth()->user()->rank >= 3)
+                    @if(Auth::check() && auth()->user()->rank >= 3)
                         <x-responsive-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
                             {{ __('Maak een Challenge') }}
                         </x-responsive-nav-link>
                     @endif
                 @endif
-                @if(Auth::user()->is_admin !== 1)
+                @if(Auth::check() && Auth::user()->is_admin !== 1)
                 @else
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-responsive-nav-link :href="route('badges.create')"
@@ -148,8 +148,15 @@
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-sky-200">
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    @if(Auth::check())
+                        <div class="font-medium text-base text-gray-800">
+                            {{ Auth::user()->name }}
+                        </div>
+                        <div class="font-medium text-sm text-gray-500">
+                            {{ Auth::user()->email }}
+                        </div>
+                    @endif
+
                 </div>
 
                 <div class="mt-3 space-y-1">
