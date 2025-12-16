@@ -16,6 +16,9 @@ Route::get('/', [ChallengeController::class, 'dashboard'])->name('dashboard');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/challenges', [ChallengeController::class, 'allChallenges'])->name('challenges.all');
     Route::get('/challenge/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
+    Route::get('/upload/{challenge}', [UploadController::class, 'show']);
+    Route::post('/upload/{challenge}', [UploadController::class, 'store'])
+        ->name('upload.store');
 });
 
 Route::get('/testmail', function () {
@@ -41,9 +44,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/user/create', [ChallengeController::class, 'create'])->name('user.create');
 Route::post('/user/create', [ChallengeController::class, 'store'])->name('user.store');
 Route::get('/submit', [UploadController::class, 'index']);
-Route::get('/upload/{challenge}', [UploadController::class, 'show']);
-Route::post('/upload/{challenge}', [UploadController::class, 'store'])
-    ->name('upload.store');
 
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {

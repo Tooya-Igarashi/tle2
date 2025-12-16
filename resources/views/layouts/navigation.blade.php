@@ -1,5 +1,10 @@
 <nav x-data="{ open: false }" class="bg-sky-300 border-b border-sky-400 shadow-md">
     <!-- Primary Navigation Menu -->
+    <a href="#main"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2
+          bg-white text-black px-4 py-2 rounded shadow z-50">
+        Ga naar hoofdinhoud
+    </a>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div class="flex justify-between h-14">
             <div class="flex items-center gap-8">
@@ -21,7 +26,13 @@
                         class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-black' : 'border-transparent hover:border-black' }}">
                         Home
                     </a>
-
+                    @guest
+                        <a
+                            href="{{ route('login') }}"
+                            class="text-black px-1 pb-1 border-b-2 {{ request()->routeIs('login') ? 'border-black' : 'border-transparent hover:border-black' }}">
+                            Login
+                        </a>
+                    @endguest
                     @if(Auth::check() && Auth::user()->is_admin === 1)
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route('challenges.create')"

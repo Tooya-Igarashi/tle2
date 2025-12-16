@@ -9,7 +9,7 @@
     </header>
 
     {{-- Hoofdinhoud --}}
-    <main id="main-content" role="main" class="bg-white pb-20">
+    <main id="main" role="main" class="bg-white pb-20">
 
         {{-- Statusmeldingen --}}
         @if(session('status'))
