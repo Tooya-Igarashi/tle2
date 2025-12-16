@@ -16,37 +16,31 @@ class BadgeController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-
-        // 1️⃣ Alle challenges die een badge hebben
+        
         $challenges = Challenge::with('badge')
             ->whereNotNull('badge_id')
             ->get();
 
-        // 2️⃣ Alle challenge IDs die de user heeft voltooid
         $completedChallengeIds = ChallengeCompletion::where('user_id', $user->id)
             ->pluck('challenge_id')
             ->toArray();
 
-        // 3️⃣ Markeer PER CHALLENGE of hij gedaan is
         foreach ($challenges as $challenge) {
             $challenge->completed = in_array($challenge->id, $completedChallengeIds);
         }
 
-        // 4️⃣ Verdiende badges = badges waarvan MINSTENS 1 challenge is voltooid
         $earnedBadges = $challenges
             ->where('completed', true)
             ->pluck('badge')
             ->unique('id')
             ->values();
 
-        // 5️⃣ Nog te doen badges = badges met challenges die NIET voltooid zijn
         $todoBadges = $challenges
             ->where('completed', false)
             ->pluck('badge')
             ->unique('id')
             ->values();
 
-        // 6️⃣ Statistieken
         $earnedBadgesCount = $earnedBadges->count();
         $totalbadges = Badge::count();
         $notyetachieved = $todoBadges->count();
