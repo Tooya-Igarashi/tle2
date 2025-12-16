@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-bold text-black">Create Challenge</h2>
+        Create Challenge
+    </x-slot>
+    <x-slot name="headerDescription">
+        Maak jouw eigen challenge aan
     </x-slot>
     <div class="max-w-6xl mx-auto px-6 pb-12 ">
 
@@ -194,7 +197,7 @@
 
                 stepDiv.innerHTML = `
                     <div class="step-header flex justify-between items-center mb-2">
-                        <span class="step-title font-semibold text-white"></span>
+                        <span class="step-title font-semibold text-black"></span>
                         <button type="button" class="remove-step bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
                             Remove
                         </button>
@@ -203,7 +206,7 @@
                 `;
 
                 stepsList.appendChild(stepDiv);
-                stepsList.setAttribute('class', 'text-white font-semibold');
+                stepsList.setAttribute('class', 'text-black font-semibold');
                 updateStepNumbers();
 
                 // Add remove functionality

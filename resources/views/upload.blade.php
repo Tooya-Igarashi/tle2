@@ -31,7 +31,7 @@
             </div>
 
             <div class="flex flex-row items-center gap-5 bg-emerald-400 p-6 rounded-2xl pt-4">
-                <img src="{{asset($challenge->badge->image)}}" alt="{{$challenge->badge->name}}"
+                <img src="{{asset($challenge->badge->image)}}" alt="{{$challenge->badge->name}} badge"
                      class="h-20 rounded-lg  object-cover">
 
 
@@ -54,7 +54,7 @@
                 @csrf
 
                 {{--                    <img src="https://static.vecteezy.com/system/resources/previews/016/017/372/large_2x/image-upload-free-png.png"  class="h-80 rounded-md border object-cover">--}}
-                <label for="content" class="block text-sm font-medium text-gray-700 mb-1"> <img
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-1"> <img alt="upload foto hier"
                         src="https://static.vecteezy.com/system/resources/previews/016/017/372/large_2x/image-upload-free-png.png"
                         class="h-80 rounded-md border object-cover"></label>
 

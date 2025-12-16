@@ -1,8 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl leading-tight text-black">
-            Create Badge
-        </h2>
+        Create Badge
+    </x-slot>
+    <x-slot name="headerDescription">
+        Maak een badge aan voor gebruikers om te verdienen
     </x-slot>
 
     <div class="max-w-6xl mx-auto px-6 pb-12 ">
@@ -52,7 +53,7 @@
 
                 <button type="submit"
                         class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition">
-                       
+
                     Create Badge
                 </button>
             </form>

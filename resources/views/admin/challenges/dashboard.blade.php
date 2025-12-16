@@ -1,4 +1,10 @@
 <x-app-layout>
+    <x-slot name="header">
+        Admin Dashboard
+    </x-slot>
+    <x-slot name="headerDescription">
+        Welkom op het admin dashboard
+    </x-slot>
     <div class="overflow-x-auto shadow-md rounded-lg border border-gray-200">
         <table class="hidden md:table mx-auto">
         <thead>

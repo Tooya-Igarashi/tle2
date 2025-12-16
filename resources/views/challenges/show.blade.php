@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="header">
+        {{$challenge->title}}
+    </x-slot>
     <main class="bg-white py-8 px-4 pb-20">
         <div class="max-w-3xl mx-auto">
 

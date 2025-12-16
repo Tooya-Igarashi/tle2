@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-black leading-tight">
-            Edit Challenge
-        </h1>
+        Edit Challenge
     </x-slot>
 
 

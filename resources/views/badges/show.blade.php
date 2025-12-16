@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="header">
+        Badge
+    </x-slot>
     <div class="relative bg-blue-400 rounded-2xl shadow p-6 max-w-3xl mx-auto">
 
         <!-- Terug -->

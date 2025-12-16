@@ -20,9 +20,17 @@
 
     <!-- Page Heading -->
     @isset($header)
-        <header class="text-black">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-black">
-                {{ $header }}
+        <header class="bg-green-200 shadow-lg mb-5">
+            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-black mb-4 leading-tight justify-center">
+                    {{ $header }}
+                </h1>
+
+                @isset($headerDescription)
+                    <p class="text-black text-lg md:text-xl max-w-3xl mb-6">
+                        {{ $headerDescription }}
+                    </p>
+                @endisset
             </div>
         </header>
     @endisset

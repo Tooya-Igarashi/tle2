@@ -1,4 +1,10 @@
 <x-app-layout>
+    <x-slot name="header">
+        Badges
+    </x-slot>
+    <x-slot name="headerDescription">
+        Jouw collectie van behaalde en nog te behalen badges
+    </x-slot>
     <div class="relative max-w-5xl mx-auto mt-2 p-6 bg-blue-500 rounded-3xl shadow-lg">
         <!-- Terug knop -->
         <div class="max-w-5xl mx-auto mt-0 mb-2 flex justify-start">
@@ -22,7 +28,7 @@
                         </div>
                     </a>
                 @empty
-                    <p class="text-gray-300">Je hebt nog geen badges.</p>
+                    <p class="text-black">Je hebt nog geen badges.</p>
                 @endforelse
             </div>
         </div>

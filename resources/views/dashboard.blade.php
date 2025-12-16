@@ -1,12 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl leading-tight text-black">
-            @auth
-                Welkom, {{ Auth::user()->name }}
-            @else
-                Welkom!
-            @endauth
-        </h2>
+        Homepagina
     </x-slot>
 
     <div class="bg-white pb-20">
@@ -83,7 +77,7 @@
             <div class="py-10">
                 <div class="max-w-6xl mx-auto px-6">
                     <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
-                        <h1 class="font-bold text-2xl mb-3">Help jij de natuur?</h1>
+                        <h2 class="font-bold text-2xl mb-3">Help jij de natuur?</h2>
                         <p class="leading-relaxed ">
                             Veel jongeren willen iets doen voor de natuur. Samen met Natuurmonumenten laten
                             we zien
