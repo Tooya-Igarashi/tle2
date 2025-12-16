@@ -68,7 +68,9 @@ class ChallengeController extends Controller
     public function create()
     {
         $difficulties = Difficulty::all();
-        $badges = Badge::all();
+        $usedBadgeIds = Challenge::whereNotNull('badge_id')
+            ->pluck('badge_id');
+        $badges = Badge::whereNotIn('id', $usedBadgeIds)->get();
         $user = auth()->user();
         if (\Auth::user()->is_admin === 1) {
             return view('admin.challenges.create', compact('difficulties', 'badges'));
@@ -92,7 +94,7 @@ class ChallengeController extends Controller
             'image' => 'image|max:2048',
         ]);
         $user = auth()->user();
-        
+
         if ($user->is_admin) {
             $published = true;
         } elseif ($user->rank >= 3) {
