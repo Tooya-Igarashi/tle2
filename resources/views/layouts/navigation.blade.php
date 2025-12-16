@@ -129,6 +129,11 @@
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Home') }}
                 </x-responsive-nav-link>
+                @guest
+                    <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                        {{ __('Login') }}
+                    </x-responsive-nav-link>
+                @endguest
                 @auth
                     @if(Auth::check() && Auth::user()->is_admin === 1)
                         <x-responsive-nav-link :href="route('challenges.create')"

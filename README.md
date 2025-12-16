@@ -1,59 +1,241 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+![BeverLogo.png](public/images/BeverLogo.png)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# EcoExplorer
 
-## About Laravel
+EcoExplorer is a web application for 12-year-old users, developed as an extension of Natuurmonumenten/OERRR. The
+application focuses on completing nature-related challenges with a clear step-by-step structure and multiple difficulty
+levels. After completing a challenge, users upload a photo as proof, which is then reviewed and approved by a parent or
+guardian via email.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Once approved, users earn badges that contribute to their rank progression. Higher ranks unlock additional features,
+such as creating and sharing their own challenges. EcoExplorer uses gamification elements badges, ranks, and challenges
+to motivate users, increase engagement, and build an active community around nature and outdoor activities.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##📋 Table of Contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [🗺️ Entity Relationship Diagram](#-entity-relationship-diagram)
+- [🎯 Project Goals](#-project-goals)
+- [🧠 Core Concept & Functionality](#-core-concept--functionality)
+- [🚀 Technologies Used](#-technologies-used)
+- [🔐 Privacy & AVG (GDPR) Considerations](#-privacy--avg-gdpr-considerations)
+- [🔧 Installation & Setup](#-installation--setup)
+- [🚢 Deployment Notes](#-deployment-notes)
+- [🔮 Future Improvements](#-future-improvements)
+- [⚠️ Edge Cases & Considerations](#-edge-cases--considerations)
+- [📄 Disclaimer](#-disclaimer)
 
-## Learning Laravel
+## 🗺️ Entity Relationship Diagram
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```mermaid
+erDiagram
+    USERS {
+        bigint id PK
+        varchar name
+        varchar email
+        varchar password
+        boolean is_admin
+        int rank
+    }
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    CHALLENGES {
+        bigint id PK
+        varchar title
+        longtext description
+        boolean published
+        time duration
+        bigint user_id FK
+        bigint difficulty_id FK
+        bigint badge_id FK
+        timestamp timestamp_created
+        timestamp timestamp_edited
+    }
 
-## Laravel Sponsors
+    STEPS {
+        bigint id PK
+        int step_number
+        longtext step_description
+        bigint challenge_id FK
+    }
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    DIFFICULTIES {
+        bigint id PK
+        varchar difficulty
+    }
 
-### Premium Partners
+    SUBMITTED {
+        bigint id PK
+        bigint user_id FK
+        bigint challenge_id FK
+        blob content
+        boolean pending
+        bigint date
+    }
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+    USER_CHALLENGE {
+        bigint id_user FK
+        varchar challenge_id FK
+    }
 
-## Contributing
+    CHALLENGE_COMPLETED {
+        bigint id_user FK
+        varchar challenge_id FK
+        datetime completed_at
+    }
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    BADGES {
+        bigint id PK
+        blob image
+        varchar name
+        longtext description
+    }
 
-## Code of Conduct
+    BADGE_USER {
+        bigint id_badge FK
+        bigint user_id FK
+        datetime acquire
+    }
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    USERS ||--o{ CHALLENGES: creates
+    USERS ||--o{ SUBMITTED: submits
+    CHALLENGES ||--o{ SUBMITTED: receives
+    CHALLENGES ||--o{ STEPS: has
+    DIFFICULTIES ||--o{ CHALLENGES: categorizes
+    USERS }o--o{ BADGES: earns
+    USERS }o--o{ CHALLENGES: participates
+  ````
 
-## Security Vulnerabilities
+## 🎯 Project Goals
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Increase awareness and engagement with nature among young users
+- Use gamification (badges, ranks, challenges) to stimulate motivation
+- Encourage community interaction through user-created challenges
+- Prepare users for long-term, self-driven involvement with Natuurmonumenten
 
-## License
+## 🧠 Core Concept & Functionality
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- EcoExplorer revolves around completing nature-related challenges:
+- Users can browse challenges with different difficulty levels (Easy, Medium, Hard)
+- Most challenges contains a step-by-step guide
+- After completion, users upload a photo as proof
+- Proof is reviewed by a parent or guardian via email
+- Upon approval, users receive a badge
+- Badges increase the user’s rank
+- Higher ranks unlock the ability to create and share challenges
+- This structure supports both intrinsic and extrinsic motivation while keeping the platform safe and compliant with
+  privacy regulations.
+
+## 🚀 Technologies Used
+
+- Frontend: Tailwind CSS, JS
+- Backend: PHP with Laravel Framework
+- Database: sqlite
+- Email Handling: Mailgun API [See Api](https://github.com/mailgun/mailgun-php)
+- Version Control: Git & GitHub
+
+## 🔐 Privacy & AVG (GDPR) Considerations
+
+- Due to GDPR regulations:
+- Minimal user data is stored
+- No analytical tracking of underage users is performed
+- Challenge validation is handled by parents/guardians
+
+## 🔧 Installation & Setup
+
+Prerequisites
+
+- Laravel Herd installed
+- PHP 8.1 or higher
+
+Setup
+
+```bash
+git clone https://github.com/Tooya-Igarashi/tle2.git
+cd tle2
+composer install
+npm install
+````
+
+Environment Configuration
+
+````bash
+cp .env.example .env
+php artisan key:generate
+````
+
+Configure your database credentials in the .env file.
+
+Database Migration
+
+````bash
+php artisan migrate:fresh --seed
+````
+
+Install Mailgun Install
+
+```bash
+composer require guzzlehttp/guzzle
+composer require symfony/mailgun-mailer
+composer require symfony/http-client
+composer require symfony/mailgun-mailer mailgun/mailgun-php
+````
+
+Mailgun Configuration in .env
+
+````bash
+MAIL_MAILER=mailgun
+MAILGUN_DOMAIN=your-mailgun-domain
+MAILGUN_SECRET=your-mailgun-secret-key
+MAILGUN_ENDPOINT=api.mailgun.net
+MAIL_FROM_ADDRESS="Your@site.com"
+MAIL_FROM_NAME="Your Site Name"
+````
+
+Running the Application
+
+When using Laravel Herd, the application is automatically served.
+Open the project using the domain assigned by Herd, for example:
+
+````bash
+https://tle2.test
+````
+
+## 🚢 Deployment Notes
+
+- Ensure correct environment variables are set (APP_ENV, APP_KEY, DB_*)
+- Use a secure mail service for parental approval emails
+- Storage and file permissions must allow image uploads
+- For more details, refer
+  to [the this github repository.](https://github.com/HR-CMGT/PRG05-2025-2026/tree/main/deployment-tle)
+- Storage needs to be linked using:
+
+````bash
+php artisan storage:link
+````
+
+## 🔮 Future Improvements
+
+- Alternative approval methods besides email
+- Automated content moderation
+- Video tutorials instead of static images
+- Expanded community features
+
+## ⚠️ Edge Cases & Considerations
+
+- Photo rejection:
+  If a submission is rejected, the user can redo the challenge and upload a new photo
+- No parental response:
+  Submissions remain pending until approved or rejected
+- Incomplete challenges:
+  Badges and rank progression are only awarded after approval
+- Scalability:
+  Future automation (e.g. content validation scripts) can reduce admin workload
+- Mail deliverability:
+  Ensure emails reach parents/guardians by using a reliable mail service and proper email formatting
+- Token based approval links:
+  Use secure, unique tokens in approval/rejection links to prevent unauthorized actions
+
+## 📄 Disclaimer
+
+This project was developed as an educational prototype. Certain features (such as automated moderation) are conceptual
+and intended for future development.
+
