@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-bold text-black">Create Challenge</h2>
+        Maak een nieuwe challenge aan
     </x-slot>
     <div class="max-w-6xl mx-auto px-6 pb-20 ">
 

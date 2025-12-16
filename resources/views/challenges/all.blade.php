@@ -1,12 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-black leading-tight">
-            @auth
-                Welkom, {{ Auth::user()->name }}
-            @else
-                Welkom!
-            @endauth
-        </h2>
+        Alle Challenge
     </x-slot>
     <div class="bg-white pb-20">
         {{--        Bever logo--}}

@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="header">
+        Profiel pagina
+    </x-slot>
     <div class="bg-white pb-20">
         <div class="bg-blue-400 border rounded-2xl mt-0 shadow p-6 max-w-7xl mx-auto">
             {{-- Bovenste grid: profiel + badges + rank --}}
@@ -7,7 +10,6 @@
 
                 {{-- Linkerkant: profielfoto + naam --}}
                 <div class="flex flex-col items-center text-center w-full px-4 md:px-0">
-                    <h3 class="text-3xl font-semibold mb-1">Profiel</h3>
                     <h2 class="mt-4 text-2xl font-bold">{{ $user->name }}</h2>
                     <p class="mt-1 text-sm">
                         <span class="font-semibold">Guides gedaan:</span>

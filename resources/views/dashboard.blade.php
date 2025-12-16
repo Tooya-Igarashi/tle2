@@ -9,10 +9,10 @@
     </header>
 
     {{-- Hoofdinhoud --}}
-    <main id="main-content" role="main" class="bg-white pb-20">
+    <main id="main-content" class="bg-white pb-20">
 
         {{-- Statusmeldingen --}}
-        @if(session('status'))
+        @if( session('status') )
             <section aria-live="polite" class="py-10">
                 <div class="max-w-6xl mx-auto px-6">
                     <div class="bg-sky-300 shadow-md rounded-2xl p-8 text-black">
