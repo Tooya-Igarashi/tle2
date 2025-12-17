@@ -170,15 +170,6 @@ Database Migration
 php artisan migrate:fresh --seed
 ````
 
-Install Mailgun Install
-
-```bash
-composer require guzzlehttp/guzzle
-composer require symfony/mailgun-mailer
-composer require symfony/http-client
-composer require symfony/mailgun-mailer mailgun/mailgun-php
-````
-
 Mailgun Configuration in .env
 
 ````bash
@@ -192,7 +183,9 @@ MAIL_FROM_NAME="Your Site Name"
 
 Running the Application
 
-When using Laravel Herd, the application is automatically served.
+Make sure to enable the HTTPS checkbox in Laravel Herd.
+
+When using Laravel Herd, the application is automatically served.  
 Open the project using the domain assigned by Herd, for example:
 
 ````bash
