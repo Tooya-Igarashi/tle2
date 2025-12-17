@@ -236,6 +236,12 @@ php artisan storage:link
 - Images in emails are delivered via links instead of embedded images.
 - This is due to server-side restrictions that block inline or attached images.
 - When modifying email functionality, contributors should ensure that image URLs remain accessible and secure.
+- Admins can set challenges to inactive to remove them from public access.
+- If a user has already completed a challenge and earned the badge, the badge remains visible in the user’s profile.
+- However, when the user attempts to revisit the original challenge via a direct link, the application will return a
+  “challenge not found” state.
+- This is expected behavior based on the current challenge visibility logic.
+- Contributors should be aware of this when modifying challenge visibility or routing logic.
 
 ## 📄 Disclaimer
 
